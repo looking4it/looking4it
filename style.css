@@ -18,8 +18,9 @@ body {
   background-color: black;
   color: white;
 }
+@import url('https://fonts.googleapis.com/css2?family=Michroma&family=Urbanist:wght@100&display=swap');
 
-/* Sidebar title: Michroma */
+/* Sidebar title */
 .sidebar h1.logo-title {
   font-family: 'Michroma', sans-serif !important; /* force Michroma */
   font-weight: normal !important;
@@ -34,7 +35,7 @@ body {
   font-weight: 100;
   font-style: normal;
   margin-top: 10px;
-  letter-spacing: 4px;
+  letter-spacing: 6px;
 }
 
 /* ================= Navigation Links ================= */
