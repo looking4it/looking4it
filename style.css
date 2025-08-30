@@ -1,13 +1,12 @@
-
-
+/* ================= Body ================= */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Urbanist', sans-serif; /* default font */
   background-color: black;
   color: white;
 }
 
-/* Sidebar */
+/* ================= Sidebar ================= */
 .sidebar {
   width: 15%;
   height: 100vh;
@@ -16,36 +15,40 @@ body {
   left: 0;
   padding: 20px;
   box-sizing: border-box;
+  background-color: black;
+  color: white;
 }
 
-.sidebar h1 {
-  font-family: 'Michroma', sans-serif;https://github.com/looking4it/looking4it/blob/main/style.css
-  font-weight: normal;   /* Michroma is single-weight */
+/* Sidebar title: Michroma */
+.sidebar h1.logo-title {
+  font-family: 'Michroma', sans-serif;
+  font-weight: normal;
   margin: 0;
-  text-transform: uppercase; /* optional, for consistent style */
-  letter-spacing: 2px;  /* optional, adds breathing room */
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-/* Subtitle and navigation: Urbanist thin 100 */
-.sidebar .subtitle,
-.nav-links a {
+/* Subtitle under title: Urbanist thin */
+.sidebar .subtitle {
   font-family: 'Urbanist', sans-serif;
   font-weight: 100;
-  font-style: normal; /* keeps thin */
-  color: white;
+  font-style: normal;
+  margin-top: 10px;
+}
+
+/* ================= Navigation Links ================= */
+.nav-links {
+  margin-top: 40px; /* moves all links down below subtitle */
 }
 
 .nav-links a {
-  margin-top: 50px; /* moves all links down */
-/* Make links closer together and smaller */
-.nav-links a {
   display: block;
-  margin-bottom: 6px;      /* closer spacing between each button */
-  font-size: 14px;         /* smaller font size */
-  line-height: 1.1;        /* reduces extra spacing */
+  margin-bottom: 6px;       /* closer spacing between each button */
+  font-size: 14px;          /* smaller text */
+  line-height: 1.1;         /* tight spacing */
   text-decoration: none;
   color: white;
-  font-weight: 100;        /* thin text */
+  font-weight: 100;         /* thin text */
   transition: opacity 0.3s;
 }
 
@@ -53,25 +56,27 @@ body {
   opacity: 0.7;
 }
 
+/* Contact slightly bolder */
 .nav-links a.contact {
-  font-weight: 100;
+  font-weight: 300;
 }
 
-/* Content */
+/* ================= Main Content ================= */
 .content {
-  margin-left: 15%;
+  margin-left: 15%; /* leaves space for sidebar */
   padding: 20px;
   box-sizing: border-box;
   min-height: 100vh;
 }
 
 .content-inner {
+  border: 1px solid white;
   margin: 20px;
-  padding: 20px;https://github.com/looking4it/looking4it/blob/main/style.css
+  padding: 20px;
   min-height: 80vh;
 }
 
-/* Image Grid */
+/* ================= Image Grid ================= */
 .image-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -80,21 +85,30 @@ body {
 
 .image-grid img {
   width: 95%;
-  height: 95%;
+  height: auto; /* keep original aspect ratio */
   display: block;
+}
+
+/* ================= Contact Form ================= */
+.contact-form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 100;
 }
 
 .contact-form input,
 .contact-form textarea {
-  width: 30%;
+  width: 90%;
+  max-width: 500px;
   background: transparent;
   border: 1px solid white;
   color: white;
   padding: 8px;
   margin-top: 5px;
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .contact-form textarea {
   resize: vertical;
+  min-height: 80px;
 }
