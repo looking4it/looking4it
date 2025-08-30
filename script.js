@@ -5,10 +5,12 @@ const pages = {
   `,
   paintings: `
     <div class="image-grid">
-      <img src="images/dogx.png" alt="TJ in Robes. 2025. Oil on Canvas. 36x24. A young woman cares for her aging dog as his condition worsens. A young man commissions his portrait dowered in jewels, sitting on his thrown. He prepares to present it to her on her birthday. $3,200. SOLD.">
+      <img src="images/dogx.png" alt="TJ in Robes. 2025. Oil on Canvas. 36x24. A young woman cares for his aging dog as his condition worsens. A young man commissions his portrait dowered in jewels, sitting on his throne. He prepares to present it to her on her birthday. $3,200. SOLD.">
       <img src="images/mom and leah.png" alt="I love you, Mom. 2021. Oil on Canvas. 36x16. Sandra and her daughter sharing a homemade yogurt popsicle in 2005. Her husband takes a picture. Her other daughter would come to consolidate this memory in oil paints 16 years later. NOT FOR SALE.">
       <img src="images/painting3.jpg" alt="Painting 3">
-      <img src="images/painting2.jpg" alt="Painting 2">
+      <img src="images/u.jpg" alt="Painting 4">
+      <img src="images/painting2.jpg" alt="Painting 5">
+      <img src="images/h.jpg" alt="Painting 6">
     </div>
   `,
   films: `
@@ -58,13 +60,10 @@ const pages = {
     <form class="contact-form">
       <label>Name</label>
       <input type="text" name="name">
-
       <label>Email</label>
       <input type="email" name="email">
-
       <label>Subject</label>
       <input type="text" name="subject">
-
       <label>Message</label>
       <textarea name="message" rows="6"></textarea>
     </form>
@@ -75,36 +74,13 @@ const pages = {
 const modal = document.getElementById('image-modal');
 const modalImg = document.getElementById('modal-img');
 const modalText = document.getElementById('modal-text');
-const closeBtn = document.querySelector('.close');
+const closeBtn = document.getElementsByClassName('close')[0];
 
-// Load page content
-function loadPage(page) {
-  document.getElementById('content').innerHTML = pages[page];
-  attachModalHandlers();
-}
-
-// Attach modal to images
+// Attach modal click listeners to images
 function attachModalHandlers() {
-  document.querySelectorAll('.image-grid img').forEach(img => {
+  const galleryImages = document.querySelectorAll('.image-grid img');
+  galleryImages.forEach(img => {
     img.onclick = () => {
       modal.style.display = 'block';
       modalImg.src = img.src;
       modalText.textContent = img.alt;
-    };
-  });
-}
-
-// Close modal
-closeBtn.onclick = () => modal.style.display = 'none';
-modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-
-// Navigation
-document.querySelectorAll('.nav-links a').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    loadPage(link.dataset.page);
-  });
-});
-
-// Initial load
-loadPage('gallery');
