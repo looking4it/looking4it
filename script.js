@@ -5,12 +5,12 @@ const pages = {
   `,
   paintings: `
     <div class="image-grid">
-      <img src="images/dog.PNG" alt="Painting 1">
-      <img src="images/painting2.jpg" alt="Painting 2">
+      <img src="images/dogx.png" alt="Painting 1">
+      <img src="images/mon and leah.png" alt="Painting 2">
       <img src="images/painting3.jpg" alt="Painting 3">
-      <img src="images/dog.PNG" alt="Painting 1">
+      <img src="u" alt="Painting 1">
       <img src="images/painting2.jpg" alt="Painting 2">
-      <img src="mom and leah.png" alt="Painting 3">
+      <img src="h" alt="Painting 3">
     </div>
   `,
   films: `
