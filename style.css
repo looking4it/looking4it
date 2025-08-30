@@ -26,14 +26,13 @@ body {
   letter-spacing: 2px;  /* optional, adds breathing room */
 }
 
-.sidebar h1 span {
-  display: block;
-}
-
-.sidebar .subtitle {
-  font-style: italic;
-  margin: 10px 0 30px 0;
+/* Subtitle and navigation: Urbanist thin 100 */
+.sidebar .subtitle,
+.nav-links a {
+  font-family: 'Urbanist', sans-serif;
   font-weight: 100;
+  font-style: normal; /* keeps thin */
+  color: white;
 }
 
 .nav-links a {
@@ -41,7 +40,7 @@ body {
   margin-bottom: 15px;
   text-decoration: none;
   color: white;
-  font-weight: 200;
+  font-weight: 100;
   transition: opacity 0.3s;
 }
 
@@ -50,7 +49,7 @@ body {
 }
 
 .nav-links a.contact {
-  font-weight: 400;
+  font-weight: 100;
 }
 
 /* Content */
@@ -76,27 +75,20 @@ body {
 }
 
 .image-grid img {
-  width: 100%;
-  height: auto;
+  width: 95%;
+  height: 95%;
   display: block;
-}
-
-/* Contact Form */
-.contact-form label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 200;
 }
 
 .contact-form input,
 .contact-form textarea {
-  width: 100%;
+  width: 30%;
   background: transparent;
   border: 1px solid white;
   color: white;
   padding: 8px;
   margin-top: 5px;
-  font-size: 14px;
+  font-size: 10px;
 }
 
 .contact-form textarea {
