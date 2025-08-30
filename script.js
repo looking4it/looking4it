@@ -84,35 +84,42 @@ document.querySelectorAll(".nav-links a").forEach(link => {
     document.getElementById("content").innerHTML = pages[page];
   });
 });
-// Modal code
+// Modal elements
 const modal = document.getElementById('image-modal');
 const modalImg = document.getElementById('modal-img');
 const modalText = document.getElementById('modal-text');
 const closeBtn = document.getElementsByClassName('close')[0];
 
-// Function to attach modal click listeners to current images
+// Attach modal to images
 function attachModalHandlers() {
   const galleryImages = document.querySelectorAll('.image-grid img');
   galleryImages.forEach(img => {
-    img.addEventListener('click', () => {
+    img.onclick = () => {
       modal.style.display = 'block';
       modalImg.src = img.src;
       modalText.textContent = img.alt;
-    });
+    };
   });
 }
 
-// Close modal functions
-closeBtn.onclick = () => modal.style.display = 'none';
+// Close modal
+closeBtn.onclick = () => { modal.style.display = 'none'; };
 modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
 
 // Load page content
 function loadPage(pageName) {
-  document.getElementById("content").innerHTML = pages[pageName];
-  attachModalHandlers(); // attach modal handlers to new images
+  document.getElementById('content').innerHTML = pages[pageName];
+  attachModalHandlers(); // important for dynamically loaded images
 }
 
-// Initial load
+// Initial page load
 loadPage('gallery');
 
-
+// Navigation
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const page = link.getAttribute('data-page');
+    loadPage(page); // always use loadPage so modal works
+  });
+});
