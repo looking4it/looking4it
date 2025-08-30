@@ -1,3 +1,11 @@
+.sidebar h1 {
+  font-family: 'Michroma', sans-serif;
+  font-weight: normal;   /* Michroma is single-weight */
+  margin: 0;
+  text-transform: uppercase; /* optional, for consistent style */
+  letter-spacing: 2px;  /* optional, adds breathing room */
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
