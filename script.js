@@ -5,7 +5,7 @@ const pages = {
   `,
   paintings: `
     <div class="image-grid">
-      <img src="images/painting1.jpg" alt="Painting 1">
+      <img src="images/dog.PNG" alt="Painting 1">
       <img src="images/painting2.jpg" alt="Painting 2">
       <img src="images/painting3.jpg" alt="Painting 3">
     </div>
