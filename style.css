@@ -1,112 +1,99 @@
-/* Reset */
-* {
+body {
   margin: 0;
-  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  color: white;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 20%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
   box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #000;
-  color: #fff;
+.sidebar h1 {
+  font-weight: bold;
+  margin: 0;
 }
 
-/* Navbar */
-.navbar {
-  background: #000;
-  padding: 10px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+.sidebar h1 span {
+  display: block;
 }
 
-.navbar ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+.sidebar .subtitle {
+  font-style: italic;
+  margin: 10px 0 30px 0;
+  font-weight: 100;
 }
 
-.navbar ul li a {
-  padding: 8px 15px;
-  border: 2px solid white;
+.nav-links a {
+  display: block;
+  margin-bottom: 15px;
   text-decoration: none;
   color: white;
-  background: black;
-  transition: 0.3s;
+  font-weight: 200;
+  transition: opacity 0.3s;
 }
 
-.navbar ul li a:hover {
-  background: white;
-  color: black;
+.nav-links a:hover {
+  opacity: 0.7;
 }
 
-.pink-btn {
-  background: pink;
-  color: black;
-  border: 2px solid white;
-  font-weight: bold;
+.nav-links a.contact {
+  font-weight: 400;
 }
 
-/* Intro screen */
-.intro-screen {
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: black;
+/* Content */
+.content {
+  margin-left: 20%;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 100vh;
 }
 
-.intro-screen h1 {
-  font-size: 3rem;
-  color: white;
+.content-inner {
+  border: 1px solid white;
+  margin: 20px;
+  padding: 20px;https://github.com/looking4it/looking4it/blob/main/style.css
+  min-height: 80vh;
 }
 
-/* Sections */
-.content-section {
-  padding: 50px 20px;
-  text-align: center;
-  border-top: 1px solid #444;
-  position: relative;
-}
-
-.content-section h2 {
-  margin-bottom: 20px;
-  font-size: 2rem;
-}
-
-/* Image grid */
+/* Image Grid */
 .image-grid {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 20px;
-  flex-wrap: wrap;
 }
 
 .image-grid img {
-  max-width: 300px;
-  border: 2px solid white;
-  border-radius: 8px;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-/* Commission button in corner */
-.corner-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: pink;
-  color: black;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-weight: bold;
-  text-decoration: none;
-  border: 2px solid black;
+/* Contact Form */
+.contact-form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 200;
 }
 
-.corner-btn:hover {
-  background: #ff99cc;
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 8px;
+  margin-top: 5px;
+  font-size: 14px;
 }
 
-html {
-  scroll-behavior: smooth;
+.contact-form textarea {
+  resize: vertical;
 }
