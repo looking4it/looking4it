@@ -4,7 +4,6 @@ const pages = {
     <h2>Gallery</h2>
   `,
   paintings: `
-    <h2>Paintings</h2>
     <div class="image-grid">
       <img src="images/painting1.jpg" alt="Painting 1">
       <img src="images/painting2.jpg" alt="Painting 2">
@@ -12,7 +11,6 @@ const pages = {
     </div>
   `,
   films: `
-    <h2>Films</h2>
     <div class="image-grid">
       <img src="images/film1.jpg" alt="Film 1">
       <img src="images/film2.jpg" alt="Film 2">
@@ -20,7 +18,6 @@ const pages = {
     </div>
   `,
   photography: `
-    <h2>Photography</h2>
     <div class="image-grid">
       <img src="images/photo1.jpg" alt="Photo 1">
       <img src="images/photo2.jpg" alt="Photo 2">
@@ -28,7 +25,6 @@ const pages = {
     </div>
   `,
   music: `
-    <h2>Music</h2>
     <div class="image-grid">
       <img src="images/music1.jpg" alt="Music 1">
       <img src="images/music2.jpg" alt="Music 2">
@@ -36,7 +32,6 @@ const pages = {
     </div>
   `,
   books: `
-    <h2>Books</h2>
     <div class="image-grid">
       <img src="images/book1.jpg" alt="Book 1">
       <img src="images/book2.jpg" alt="Book 2">
@@ -44,7 +39,6 @@ const pages = {
     </div>
   `,
   clothing: `
-    <h2>Clothing</h2>
     <div class="image-grid">
       <img src="images/clothing1.jpg" alt="Clothing 1">
       <img src="images/clothing2.jpg" alt="Clothing 2">
@@ -52,7 +46,6 @@ const pages = {
     </div>
   `,
   other: `
-    <h2>Other</h2>
     <div class="image-grid">
       <img src="images/other1.jpg" alt="Other 1">
       <img src="images/other2.jpg" alt="Other 2">
