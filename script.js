@@ -2,7 +2,6 @@
 const pages = {
   gallery: `
     <h2>Gallery</h2>
-    <p>This is the Gallery landing page.</p>
   `,
   paintings: `
     <h2>Paintings</h2>
