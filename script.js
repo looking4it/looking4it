@@ -71,27 +71,21 @@ const pages = {
   `
 };
 
-// Load default page
-document.getElementById("content").innerHTML = pages.gallery;
-
-// Handle navigation
-document.querySelectorAll(".nav-links a").forEach(link => {
-  link.addEventListener("click", e => {
-    e.preventDefault();
-    const page = link.getAttribute("data-page");
-    document.getElementById("content").innerHTML = pages[page];
-  });
-});
 // Modal elements
 const modal = document.getElementById('image-modal');
 const modalImg = document.getElementById('modal-img');
 const modalText = document.getElementById('modal-text');
-const closeBtn = document.getElementsByClassName('close')[0];
+const closeBtn = document.querySelector('.close');
 
-// Attach modal to images
+// Load a page
+function loadPage(pageName) {
+  document.getElementById('content').innerHTML = pages[pageName];
+  attachModalHandlers();
+}
+
+// Attach click events to images
 function attachModalHandlers() {
-  const galleryImages = document.querySelectorAll('.image-grid img');
-  galleryImages.forEach(img => {
+  document.querySelectorAll('.image-grid img').forEach(img => {
     img.onclick = () => {
       modal.style.display = 'block';
       modalImg.src = img.src;
@@ -101,23 +95,16 @@ function attachModalHandlers() {
 }
 
 // Close modal
-closeBtn.onclick = () => { modal.style.display = 'none'; };
+closeBtn.onclick = () => modal.style.display = 'none';
 modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-
-// Load page content
-function loadPage(pageName) {
-  document.getElementById('content').innerHTML = pages[pageName];
-  attachModalHandlers(); // important for dynamically loaded images
-}
-
-// Initial page load
-loadPage('gallery');
 
 // Navigation
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
-    const page = link.getAttribute('data-page');
-    loadPage(page); // always use loadPage so modal works
+    loadPage(link.dataset.page);
   });
 });
+
+// Initial load
+loadPage('gallery');
