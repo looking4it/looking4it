@@ -5,8 +5,8 @@ const pages = {
   `,
   paintings: `
     <div class="image-grid">
-      <img src="images/dogx.png" alt="TJ in Robes. 2025. Oil on Canvas. 36"x24" A young woman cares for her aging dog as his condition worsens. A young man commissions his portrait dowered in jewels, sitting on his thrown. He prepares to present it to her on her birthday. $3,200. SOLD.">
-      <img src="images/mom and leah.png" alt="I love you, Mom. 2021. Oil on Canvas. 36"x16" Sandra and her daughter sharing a homemade yogurt popsicle in 2005. Her husband takes a picture. Her other daughter would come to consolidate this memory in oil paints 16 years later. NOT FOR SALE.">
+      <img src="images/dogx.png" alt="TJ in Robes. 2025. Oil on Canvas. 36x24. A young woman cares for her aging dog as his condition worsens. A young man commissions his portrait dowered in jewels, sitting on his thrown. He prepares to present it to her on her birthday. $3,200. SOLD.">
+      <img src="images/mom and leah.png" alt="I love you, Mom. 2021. Oil on Canvas. 36x16. Sandra and her daughter sharing a homemade yogurt popsicle in 2005. Her husband takes a picture. Her other daughter would come to consolidate this memory in oil paints 16 years later. NOT FOR SALE.">
       <img src="images/painting3.jpg" alt="Painting 3">
       <img src="u" alt="Painting 1">
       <img src="images/painting2.jpg" alt="Painting 2">
@@ -114,14 +114,5 @@ function loadPage(pageName) {
 
 // Initial load
 loadPage('gallery');
-
-// Handle navigation clicks
-document.querySelectorAll(".nav-links a").forEach(link => {
-  link.addEventListener("click", e => {
-    e.preventDefault();
-    const page = link.getAttribute("data-page");
-    loadPage(page);
-  });
-});
 
 
