@@ -37,11 +37,15 @@ body {
 
 .nav-links a {
   margin-top: 50px; /* moves all links down */
+/* Make links closer together and smaller */
+.nav-links a {
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 6px;      /* closer spacing between each button */
+  font-size: 14px;         /* smaller font size */
+  line-height: 1.1;        /* reduces extra spacing */
   text-decoration: none;
   color: white;
-  font-weight: 100;
+  font-weight: 100;        /* thin text */
   transition: opacity 0.3s;
 }
 
