@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Michroma&family=Urbanist:wght@100&display=swap');
+
 /* ================= Body ================= */
 body {
   margin: 0;
@@ -18,7 +20,6 @@ body {
   background-color: black;
   color: white;
 }
-@import url('https://fonts.googleapis.com/css2?family=Michroma&family=Urbanist:wght@100&display=swap');
 
 /* Sidebar title */
 .sidebar h1.logo-title {
