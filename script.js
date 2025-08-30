@@ -1,159 +1,93 @@
-/* ================= Body ================= */
-body {
-  margin: 0;
-  font-family: 'Urbanist', sans-serif;
-  background-color: black;
-  color: white;
-}
+// ================= Define all page contents =================
+const pages = {
+  gallery: `<h2>Gallery</h2>`,
+  
+  paintings: `
+    <div class="image-grid">
+      <img src="images/dogx.png" alt="TJ in Robes. 2025. Oil on Canvas. 36x24. Dowered in jewels.">
+      <img src="images/mom and leah.png" alt="I love you, Mom. 2021. Oil on Canvas. Not for sale.">
+      <img src="images/painting3.jpg" alt="Painting 3">
+    </div>
+  `,
 
-/* ================= Sidebar ================= */
-.sidebar {
-  width: 15%;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: black;
-  color: white;
-}
+  films: `
+    <div class="image-grid">
+      <img src="images/film1.jpg" alt="Film 1">
+      <img src="images/film2.jpg" alt="Film 2">
+      <img src="images/film3.jpg" alt="Film 3">
+    </div>
+  `,
 
-/* Sidebar title */
-.sidebar h1.logo-title {
-  font-family: 'Michroma', sans-serif;
-  font-weight: normal;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
+  photography: `
+    <div class="image-grid">
+      <img src="images/photo1.jpg" alt="Photo 1">
+      <img src="images/photo2.jpg" alt="Photo 2">
+      <img src="images/photo3.jpg" alt="Photo 3">
+    </div>
+  `,
 
-/* Subtitle under title: Urbanist thin */
-.sidebar .subtitle {
-  font-family: 'Urbanist', sans-serif;
-  font-weight: 100;
-  font-style: normal;
-  margin-top: 10px;
-  letter-spacing: 6px;
-}
+  music: `
+    <div class="image-grid">
+      <img src="images/music1.jpg" alt="Music 1">
+      <img src="images/music2.jpg" alt="Music 2">
+      <img src="images/music3.jpg" alt="Music 3">
+    </div>
+  `,
 
-/* ================= Navigation Links ================= */
-.nav-links {
-  margin-top: 40px;
-}
+  books: `
+    <div class="image-grid">
+      <img src="images/book1.jpg" alt="Book 1">
+      <img src="images/book2.jpg" alt="Book 2">
+      <img src="images/book3.jpg" alt="Book 3">
+    </div>
+  `,
 
-.nav-links a {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  line-height: 1.1;
-  text-decoration: none;
-  color: white;
-  font-weight: 100;
-  transition: opacity 0.3s;
-}
+  clothing: `
+    <div class="image-grid">
+      <img src="images/clothing1.jpg" alt="Clothing 1">
+      <img src="images/clothing2.jpg" alt="Clothing 2">
+      <img src="images/clothing3.jpg" alt="Clothing 3">
+    </div>
+  `,
 
-.nav-links a:hover {
-  opacity: 0.7;
-}
+  other: `
+    <div class="image-grid">
+      <img src="images/other1.jpg" alt="Other 1">
+      <img src="images/other2.jpg" alt="Other 2">
+      <img src="images/other3.jpg" alt="Other 3">
+    </div>
+  `,
 
-.nav-links a.contact {
-  font-weight: 300;
-}
+  contact: `
+    <h2>Contact</h2>
+    <form class="contact-form">
+      <label>Name</label>
+      <input type="text" name="name">
 
-/* ================= Main Content ================= */
-.content {
-  margin-left: 15%;
-  padding: 20px;
-  box-sizing: border-box;
-  min-height: 100vh;
-}
+      <label>Email</label>
+      <input type="email" name="email">
 
-.content-inner {
-  margin: 20px;
-  padding: 20px;
-  min-height: 80vh;
-}
+      <label>Subject</label>
+      <input type="text" name="subject">
 
-/* ================= Image Grid ================= */
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 20px;
-}
+      <label>Message</label>
+      <textarea name="message" rows="6"></textarea>
+    </form>
+  `
+};
 
-.image-grid img {
-  width: 95%;
-  height: auto;
-  display: block;
-  cursor: pointer;
-}
+// ================= Modal elements =================
+const modal = document.getElementById('image-modal');
+const modalImg = document.getElementById('modal-img');
+const modalText = document.getElementById('modal-text');
+const closeBtn = document.getElementsByClassName('close')[0];
 
-/* ================= Contact Form ================= */
-.contact-form label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 100;
-}
+// ================= Load page and attach image click handlers =================
+function loadPage(pageName) {
+  const contentDiv = document.getElementById('content');
+  contentDiv.innerHTML = pages[pageName];
 
-.contact-form input,
-.contact-form textarea {
-  width: 90%;
-  max-width: 500px;
-  background: transparent;
-  border: 1px solid white;
-  color: white;
-  padding: 8px;
-  margin-top: 5px;
-  font-size: 14px;
-}
-
-.contact-form textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-/* ================= Modal ================= */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.9);
-}
-
-.modal-content {
-  position: relative;
-  margin: 5% auto;
-  padding: 20px;
-  width: 80%;
-  max-width: 900px;
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  color: white;
-}
-
-.modal-content img {
-  max-width: 50%;
-  height: auto;
-}
-
-.modal-text {
-  flex: 1;
-  font-family: 'Urbanist', sans-serif;
-  font-weight: 100;
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  right: 25px;
-  color: white;
-  font-size: 35px;
-  font-weight: bold;
-  cursor: pointer;
-}
+  // Attach modal click handlers for new images
+  const galleryImages = document.querySelectorAll('.image-grid img');
+  galleryImages.forEach(img => {
+    img
