@@ -19,7 +19,7 @@ body {
 }
 
 .sidebar h1 {
-  font-family: 'Michroma', sans-serif;
+  font-family: 'Michroma', sans-serif;https://github.com/looking4it/looking4it/blob/main/style.css
   font-weight: normal;   /* Michroma is single-weight */
   margin: 0;
   text-transform: uppercase; /* optional, for consistent style */
@@ -36,6 +36,7 @@ body {
 }
 
 .nav-links a {
+  margin-top: 50px; /* moves all links down */
   display: block;
   margin-bottom: 15px;
   text-decoration: none;
