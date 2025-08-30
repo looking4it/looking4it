@@ -21,8 +21,8 @@ body {
 
 /* Sidebar title: Michroma */
 .sidebar h1.logo-title {
-  font-family: 'Michroma', sans-serif;
-  font-weight: normal;
+  font-family: 'Michroma', sans-serif !important; /* force Michroma */
+  font-weight: normal !important;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -34,6 +34,7 @@ body {
   font-weight: 100;
   font-style: normal;
   margin-top: 10px;
+  letter-spacing: 2px;
 }
 
 /* ================= Navigation Links ================= */
