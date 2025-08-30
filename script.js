@@ -77,13 +77,13 @@ const modalImg = document.getElementById('modal-img');
 const modalText = document.getElementById('modal-text');
 const closeBtn = document.querySelector('.close');
 
-// Load a page
-function loadPage(pageName) {
-  document.getElementById('content').innerHTML = pages[pageName];
+// Load page content
+function loadPage(page) {
+  document.getElementById('content').innerHTML = pages[page];
   attachModalHandlers();
 }
 
-// Attach click events to images
+// Attach modal to images
 function attachModalHandlers() {
   document.querySelectorAll('.image-grid img').forEach(img => {
     img.onclick = () => {
