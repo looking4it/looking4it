@@ -80,6 +80,8 @@ body {
 .detail-image img {
   max-width: 70%;
   cursor: pointer;
+  margin-left: 0;      /* remove space on the left of the text */
+  padding-left: 0;     /* remove padding if any */
 }
 
 .detail-text {
