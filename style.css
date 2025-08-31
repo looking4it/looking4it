@@ -78,7 +78,6 @@ body {
 }
 
 .detail-image img {
-  max-width: 70%;
   cursor: pointer;
 }
 
