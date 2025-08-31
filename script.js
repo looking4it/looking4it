@@ -46,6 +46,13 @@ function generateGridPage(title, data, category) {
   `;
 }
 
+/* ================= Image Grid ================= */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);  /* ← THIS LINE MAKES IT 6 IMAGES ACROSS */
+  gap: 20px;
+}
+
 // ==================== Pages ====================
 const pages = {
   gallery: `<h2>Gallery</h2><p>Select a category from the left.</p>`,
