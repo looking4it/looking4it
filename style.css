@@ -78,9 +78,9 @@ body {
 }
 
 .detail-image img {
-  display: flex;
-  cursor: pointer;
   max-width: 50%;
+  cursor: pointer;
+  display: block;      /* change from flex to block */
 }
 
 .detail-text {
