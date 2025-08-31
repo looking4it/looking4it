@@ -8,7 +8,7 @@ const dataMap = {
     { src: "images/mom and leah.png", title: "I Love You, Mom", desc: "2021. Oil on Canvas. 26x16.
            Sandra and her daughter sharing a homemade yogurt popsicle in 2005.
            Her husband takes a picture.
-           Her other daughter would come to consolidate this memory in oil paints 16 years later.
+           Her eldest daughter would come to consolidate this memory in oil paints 16 years later.
            NOT FOR SALE.." },
     { src: "images/painting3.jpg", title: "Untitled", desc: "Painting 3 description." }
   ],
