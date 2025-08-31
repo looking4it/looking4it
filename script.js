@@ -37,7 +37,6 @@ const detailImageMap = {
 // ==================== Helper Function: Generate Grid ====================
 function generateGridPage(title, data, category) {
   return `
-    <h2>${title}</h2>
     <div class="image-grid">
       ${data.map((item, i) => `
         <img src="${item.src}" alt="${item.title}" data-index="${i}" data-category="${category}" class="thumb">
