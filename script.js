@@ -1,15 +1,9 @@
+
 // ==================== DATA ====================
 const dataMap = {
   paintings: [
-    { src: "images/dogx.png", title: "TJ in Robes", desc: "2025. Oil on Canvas. 36x24.
-           A young woman cares for her aging dog as his condition worsens.
-           A young man commissions his portrait dowered in jewels, sitting on his throne.
-           He prepares to present it to her on her birthday. $3,200. SOLD." },
-    { src: "images/mom and leah.png", title: "I Love You, Mom", desc: "2021. Oil on Canvas. 26x16.
-           Sandra and her daughter sharing a homemade yogurt popsicle in 2005.
-           Her husband takes a picture.
-           Her eldest daughter would come to consolidate this memory in oil paints 16 years later.
-           NOT FOR SALE.." },
+    { src: "images/dogx.png", title: "TJ in Robes", desc: "2025. Oil on Canvas. 36x24. A young woman cares for her aging dog. Dowered in jewels. $3,200. SOLD." },
+    { src: "images/mom and leah.png", title: "I Love You, Mom", desc: "2021. Oil on Canvas. 26x16. Memory of Sandra and her daughter. NOT FOR SALE." },
     { src: "images/painting3.jpg", title: "Untitled", desc: "Painting 3 description." }
   ],
   films: [
@@ -44,12 +38,12 @@ const dataMap = {
   ]
 };
 
-// ==================== Generate Grid Page ====================
-function generateGridPage(category) {
+// ==================== Generate Grid ====================
+function generateGridPage(category){
   const items = dataMap[category];
   return `
     <div class="image-grid">
-      ${items.map((item, i) => `
+      ${items.map((item,i)=>`
         <img src="${item.src}" alt="${item.title}" data-index="${i}" data-category="${category}">
       `).join("")}
     </div>
@@ -57,26 +51,26 @@ function generateGridPage(category) {
 }
 
 // ==================== Load Page ====================
-function loadPage(page) {
+function loadPage(page){
   const content = document.getElementById("content");
   if(page === "gallery"){
-    content.innerHTML = "<h2>Gallery</h2><p>Select a category from the sidebar.</p>";
+    content.innerHTML = "<p>Select a category from the sidebar.</p>";
     return;
   }
   content.innerHTML = generateGridPage(page);
 
-  // Attach click to thumbnails
-  document.querySelectorAll(".image-grid img").forEach(img => {
-    img.addEventListener("click", () => {
+  // click thumbnails → detail
+  document.querySelectorAll(".image-grid img").forEach(img=>{
+    img.addEventListener("click", ()=>{
       const index = img.getAttribute("data-index");
       const category = img.getAttribute("data-category");
-      showDetailView(category, index);
+      showDetailView(category,index);
     });
   });
 }
 
-// ==================== Show Detail View ====================
-function showDetailView(category, index){
+// ==================== Detail View ====================
+function showDetailView(category,index){
   const item = dataMap[category][index];
   const content = document.getElementById("content");
   content.innerHTML = `
@@ -90,8 +84,8 @@ function showDetailView(category, index){
       </div>
     </div>
   `;
-  // Clicking big image goes back
-  document.getElementById("big-image").addEventListener("click", () => {
+  // clicking main image → back to grid
+  document.getElementById("big-image").addEventListener("click", ()=>{
     loadPage(category);
   });
 }
@@ -105,5 +99,5 @@ document.querySelectorAll(".nav-links a").forEach(link=>{
   });
 });
 
-// ==================== Initial Page ====================
+// ==================== Initial Load ====================
 loadPage("gallery");
