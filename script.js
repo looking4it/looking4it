@@ -15,7 +15,7 @@ const dataMap = {
   ],
   films: [
     { 
-      src: "images/homunc thumbnail.jpg",
+      src: "images/homunc thumbnail.png",
       title: "Homunculus",
       desc: "Intrigued with its new gift of life, Homunculus is presented with the simple pleasure of consuming a tiny red berry. Homunculus finds pure bliss wrapped in its leathery skin and begins the pathetic search of satisfaction. But as all else, the berries turn sour and start to eat at Homunculus from the inside.",
       video: "videos/Homunculus.mp4"
