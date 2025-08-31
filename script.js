@@ -91,3 +91,113 @@ function loadPage(pageName) {
   const galleryImages = document.querySelectorAll('.image-grid img');
   galleryImages.forEach(img => {
     img
+};
+// ==================== Page Data ====================
+const paintingsData = [
+  {
+    src: "images/dogx.png",
+    title: "TJ in Robes",
+    desc: `2025. Oil on Canvas. 36x24. 
+           A young woman cares for her aging dog as his condition worsens. 
+           A young man commissions his portrait dowered in jewels, sitting on his throne. 
+           He prepares to present it to her on her birthday. $3,200. SOLD.`
+  },
+  {
+    src: "images/mom and leah.png",
+    title: "I Love You, Mom",
+    desc: `2021. Oil on Canvas. 36x16. 
+           Sandra and her daughter sharing a homemade yogurt popsicle in 2005. 
+           Her husband takes a picture. 
+           Her other daughter would come to consolidate this memory in oil paints 16 years later. 
+           NOT FOR SALE.`
+  },
+  {
+    src: "images/painting3.jpg",
+    title: "Untitled",
+    desc: `Painting 3 description here...`
+  }
+];
+
+// ==================== Pages ====================
+const pages = {
+  gallery: `<h2>Gallery</h2>`,
+  paintings: `
+    <h2>Paintings</h2>
+    <div class="image-grid">
+      ${paintingsData.map((p, i) => `
+        <img src="${p.src}" alt="${p.title}" data-index="${i}" class="painting-thumb">
+      `).join("")}
+    </div>
+  `,
+  films: `<h2>Films</h2>`,
+  photography: `<h2>Photography</h2>`,
+  music: `<h2>Music</h2>`,
+  books: `<h2>Books</h2>`,
+  clothing: `<h2>Clothing</h2>`,
+  other: `<h2>Other</h2>`,
+  contact: `
+    <h2>Contact</h2>
+    <form class="contact-form">
+      <label>Name</label>
+      <input type="text" name="name">
+      <label>Email</label>
+      <input type="email" name="email">
+      <label>Subject</label>
+      <input type="text" name="subject">
+      <label>Message</label>
+      <textarea name="message" rows="6"></textarea>
+    </form>
+  `
+};
+
+// ==================== Load Page ====================
+function loadPage(pageName) {
+  const content = document.getElementById("content");
+  content.innerHTML = pages[pageName];
+
+  if (pageName === "paintings") {
+    // Attach click events to thumbnails
+    document.querySelectorAll(".painting-thumb").forEach(img => {
+      img.addEventListener("click", () => {
+        const index = img.getAttribute("data-index");
+        showPaintingDetail(index);
+      });
+    });
+  }
+}
+
+// ==================== Painting Detail View ====================
+function showPaintingDetail(index) {
+  const painting = paintingsData[index];
+  const content = document.getElementById("content");
+
+  content.innerHTML = `
+    <div class="painting-detail">
+      <div class="painting-image">
+        <img src="${painting.src}" alt="${painting.title}">
+      </div>
+      <div class="painting-text">
+        <h2>${painting.title}</h2>
+        <p>${painting.desc}</p>
+        <button id="back-to-paintings">← Back to Paintings</button>
+      </div>
+    </div>
+  `;
+
+  // back button
+  document.getElementById("back-to-paintings").addEventListener("click", () => {
+    loadPage("paintings");
+  });
+}
+
+// ==================== Navigation ====================
+document.querySelectorAll(".nav-links a").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const page = link.getAttribute("data-page");
+    loadPage(page);
+  });
+});
+
+// ==================== Initial Load ====================
+loadPage("gallery");
