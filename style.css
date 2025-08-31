@@ -81,7 +81,6 @@ body {
   max-width: 70%;   /* increase from 50% to 70% */
   width: auto;      /* keeps aspect ratio */
   cursor: pointer;
-  display: block;
 }
 
 
