@@ -1,8 +1,15 @@
 // ==================== DATA ====================
 const dataMap = {
   paintings: [
-    { src: "images/dogx.png", title: "TJ in Robes", desc: "2025. Oil on Canvas. 36x24." },
-    { src: "images/mom and leah.png", title: "I Love You, Mom", desc: "2021. Oil on Canvas. Memory of Sandra and her daughter." },
+    { src: "images/dogx.png", title: "TJ in Robes", desc: "2025. Oil on Canvas. 36"x24".
+           A young woman cares for her aging dog as his condition worsens.
+           A young man commissions his portrait dowered in jewels, sitting on his throne.
+           He prepares to present it to her on her birthday. $3,200. SOLD." },
+    { src: "images/mom and leah.png", title: "I Love You, Mom", desc: "2021. Oil on Canvas. 26"x16".
+           Sandra and her daughter sharing a homemade yogurt popsicle in 2005.
+           Her husband takes a picture.
+           Her other daughter would come to consolidate this memory in oil paints 16 years later.
+           NOT FOR SALE.." },
     { src: "images/painting3.jpg", title: "Untitled", desc: "Painting 3 description." }
   ],
   films: [
