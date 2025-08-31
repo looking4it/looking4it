@@ -115,5 +115,46 @@ const dataMap = {
   ]
 };
 
+function showDetailView(category, index) {
+  const item = dataMap[category][index];
+  const content = document.getElementById("content");
+
+  // Check if it's a video
+  const isVideo = item.video !== undefined;
+
+  if (isVideo) {
+    content.innerHTML = `
+      <div class="detail-view">
+        <div class="detail-video">
+          <video width="100%" height="100%" controls autoplay>
+            <source src="${item.video}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="detail-text">
+          <h2>${item.title}</h2>
+          <p>${item.desc}</p>
+        </div>
+      </div>
+    `;
+  } else {
+    content.innerHTML = `
+      <div class="detail-view">
+        <div class="detail-image">
+          <img src="${item.src}" alt="${item.title}" id="big-image">
+        </div>
+        <div class="detail-text">
+          <h2>${item.title}</h2>
+          <p>${item.desc}</p>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("big-image").addEventListener("click", () => {
+      loadPage(category);
+    });
+  }
+}
+
 // ==================== Initial Load ====================
 loadPage("gallery");
