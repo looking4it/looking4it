@@ -17,13 +17,13 @@ const dataMap = {
     { 
       src: "images/homunc thumbnail.png",
       title: "Homunculus",
-      desc: "Intrigued with its new gift of life, Homunculus is presented with the simple pleasure of consuming a tiny red berry. Homunculus finds pure bliss wrapped in its leathery skin and begins the pathetic search of satisfaction. But as all else, the berries turn sour and start to eat at Homunculus from the inside.",
+      desc: "2023.<br>Intrigued with its new gift of life, Homunculus is presented with the simple pleasure of consuming a tiny red berry. Homunculus finds pure bliss wrapped in its leathery skin and begins the pathetic search of satisfaction. But as all else, the berries turn sour and start to eat at Homunculus from the inside.",
       video: "videos/Homunculus.mp4"
     },
     { 
       src: "images/film2-thumb.jpg",
       title: "Éclaircie",
-      desc: "Something pulls her to the basement, to the canvas, beyond the paint, to the tree, to the girl, to the crows, and the shadows which part them.",
+      desc: "2024<br>Something pulls her to the basement, to the canvas, beyond the paint, to the tree, to the girl, to the crows, and the shadows which part them.",
       video: "videos/film2.mp4"
     }
   ],
