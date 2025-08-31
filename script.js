@@ -1,8 +1,8 @@
 // ==================== DATA ====================
 const dataMap = {
   paintings: [
-    { src: "images/dog.png", title: "TJ in Robes", desc: "<br> <br> 2025. <br> Oil on Canvas. <br> 36x24. <br> <br> A young woman cares for her aging dog as his condition worsens. A young man commissions his portrait dowered in jewels, sitting on his throne. He prepares to present it to her on her birthday. <br> <br> 86 hours. <br> $3,200. <br> SOLD." },
-    { src: "images/mom and leah.png", title: "I Love You, Mom", desc: "2021. <br> Oil on Canvas. <br> 26x16. <br> <br> Sandra and her daughter sharing a homemade yogurt popsicle in 2005. Her husband takes a picture. Her eldest daughter would come to consolidate this memory in oil paints 16 years later. <br> 6 months. <br> NOT FOR SALE." },
+    { src: "images/dog.png", title: "TJ in Robes", desc: "<br><br>2025.<br>Oil on Canvas.<br>36x24.<br><br>A young woman cares for her aging dog as his condition worsens. A young man commissions his portrait dowered in jewels, sitting on his throne. He prepares to present it to her on her birthday.<br><br>86 hours.<br>$3,200.<br>SOLD." },
+    { src: "images/mom and leah.png", title: "I Love You, Mom", desc: "<br><br>2021.<br> Oil on Canvas.<br>26x16.<br><br>Sandra and her daughter sharing a homemade yogurt popsicle in 2005. Her husband takes a picture. Her eldest daughter would come to consolidate this memory in oil paints 16 years later.<br>6 months.<br>NOT FOR SALE." },
     { src: "images/painting3.jpg", title: "Untitled", desc: "Painting 3 description." }
   ],
   films: [
