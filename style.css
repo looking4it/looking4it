@@ -84,3 +84,11 @@ body {
 .detail-text {
   flex: 1;
 }
+.detail-text h2 {
+  letter-spacing: 5px; /* increases spacing between letters in the title */
+}
+
+.detail-text p {
+  letter-spacing: 3px; /* increases spacing between letters in the paragraph */
+}
+
