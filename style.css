@@ -83,14 +83,15 @@ body {
 }
 
 .detail-text {
-  flex: none;   /* don’t stretch */
-  width: auto;  /* shrink to fit content */
-  margin-left: 0;      /* remove space on the left of the text */
-  padding-left: 0;     /* remove padding if any */
+  display: flex;           /* optional if you want flex control */
+  flex-direction: column;  /* stack title and description vertically */
+  justify-content: flex-start; /* align content to the top */
+  align-items: flex-start;     /* align text to the left edge */
   margin-left: 0;          /* remove any gap from the image */
   padding-left: 0;         /* remove any padding */
   text-align: left;        /* ensure text itself is left-aligned */
 }
+
 .detail-text h2 {
   letter-spacing: 5px; /* increases spacing between letters in the title */
 }
