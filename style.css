@@ -79,6 +79,7 @@ body {
 .detail-image img {
   display: flex;
   cursor: pointer;
+  max-width: 50%;
 }
 
 .detail-text {
