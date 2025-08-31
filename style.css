@@ -157,3 +157,34 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
+.painting-detail {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.painting-image {
+  flex: 1;
+}
+
+.painting-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.painting-text {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.painting-text button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  background: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
