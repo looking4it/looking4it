@@ -70,35 +70,38 @@ body {
   cursor: pointer;
 }
 
-/* Detail View */
+/* Detail View Container */
 .detail-view {
-  display: flex;  
-  gap: 0px;
-  align-items: center;
+  display: flex;          /* side by side layout */
+  align-items: center;    /* vertically center content */
+  height: 100vh;          /* fill full viewport height */
+  gap: 20px;              /* space between image and text */
 }
 
+/* Image */
 .detail-image img {
-  max-width: 70%;   /* increase from 50% to 70% */
-  width: auto;      /* keeps aspect ratio */
+  height: 100vh;          /* fill full height of viewport */
+  width: auto;            /* maintain aspect ratio */
   cursor: pointer;
+  display: block;
 }
 
-
+/* Text next to image */
 .detail-text {
-  display: flex;           /* optional if you want flex control */
-  flex-direction: column;  /* stack title and description vertically */
-  justify-content: flex-start; /* align content to the top */
-  align-items: flex-start;     /* align text to the left edge */
-  margin-left: 0;          /* remove any gap from the image */
-  padding-left: 0;         /* remove any padding */
-  text-align: left;        /* ensure text itself is left-aligned */
+  display: flex;
+  flex-direction: column; /* stack title and description vertically */
+  justify-content: flex-start; 
+  align-items: flex-start; 
+  max-width: 40%;          /* text takes up to 40% of container */
+  padding-left: 20px;      /* space from image */
+  text-align: left;
 }
 
 .detail-text h2 {
-  letter-spacing: 5px; /* increases spacing between letters in the title */
+  letter-spacing: 5px; /* spaced out letters for title */
 }
 
 .detail-text p {
-  letter-spacing: 3px; /* increases spacing between letters in the paragraph */
+  letter-spacing: 3px; /* spaced out letters for description */
 }
 
