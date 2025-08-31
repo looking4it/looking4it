@@ -73,7 +73,7 @@ body {
 /* Detail View */
 .detail-view {
   display: flex;
-  gap: 5px;
+  gap: 20px;
 }
 
 .detail-image img {
