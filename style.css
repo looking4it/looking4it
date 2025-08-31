@@ -74,6 +74,7 @@ body {
 .detail-view {
   display: flex;
   gap: 0px;
+  align-items: center;
 }
 
 .detail-image img {
