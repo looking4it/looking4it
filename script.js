@@ -41,7 +41,6 @@ const dataMap = {
 function generateGridPage(category) {
   const items = dataMap[category];
   return `
-    <h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
     <div class="image-grid">
       ${items.map((item, i) => `
         <img src="${item.src}" alt="${item.title}" data-index="${i}" data-category="${category}">
