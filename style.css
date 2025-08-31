@@ -1,4 +1,4 @@
-/* Body */
+/* ================= Body ================= */
 body {
   margin: 0;
   font-family: 'Urbanist', sans-serif;
@@ -6,7 +6,7 @@ body {
   color: white;
 }
 
-/* Sidebar */
+/* ================= Sidebar ================= */
 .sidebar {
   width: 15%;
   height: 100vh;
@@ -21,23 +21,20 @@ body {
 
 .sidebar h1.logo-title {
   font-family: 'Michroma', sans-serif;
+  font-weight: normal;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
 .sidebar .subtitle {
-  font-family: 'Urbanist', sans-serif;
   font-weight: 100;
   margin-top: 10px;
   letter-spacing: 6px;
 }
 
-/* Navigation Links */
-.nav-links {
-  margin-top: 40px;
-}
-
+/* ================= Navigation ================= */
+.nav-links { margin-top: 40px; }
 .nav-links a {
   display: block;
   margin-bottom: 6px;
@@ -47,72 +44,48 @@ body {
   font-weight: 100;
   transition: opacity 0.3s;
 }
+.nav-links a:hover { opacity: 0.7; }
 
-.nav-links a:hover {
-  opacity: 0.7;
-}
-
-.nav-links a.contact {
-  font-weight: 300;
-}
-
-/* Main Content */
+/* ================= Main Content ================= */
 .content {
   margin-left: 15%;
   padding: 20px;
+  box-sizing: border-box;
   min-height: 100vh;
 }
 
 .content-inner {
+  border: 1px solid white;
   margin: 20px;
   padding: 20px;
   min-height: 80vh;
 }
 
-/* Image Grid */
+/* ================= Image Grid ================= */
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 20px;
 }
 
 .image-grid img {
   width: 100%;
+  height: auto;
+  display: block;
   cursor: pointer;
 }
 
-/* Detail View */
+/* ================= Detail View ================= */
 .detail-view {
   display: flex;
   gap: 20px;
 }
 
-.detail-image {
-  flex: 1;
-}
-
 .detail-image img {
-  width: 100%;
-  height: auto;
+  max-width: 50%;
+  cursor: pointer;
 }
 
 .detail-text {
-  flex: 1;
-}
-
-.detail-text h2 {
-  margin-top: 0;
-}
-
-.detail-text p {
-  line-height: 1.4;
-}
-
-.detail-text button {
-  margin-top: 20px;
-  padding: 10px 15px;
-  border: none;
-  background: white;
-  color: black;
-  cursor: pointer;
+  max-width: 50%;
 }
