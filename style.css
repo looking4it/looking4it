@@ -55,7 +55,7 @@ body {
 }
 
 .content-inner {
-  border: 1px solid white;
+  border: none;
   margin: 20px;
   padding: 20px;
   min-height: 80vh;
