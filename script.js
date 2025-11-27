@@ -74,7 +74,7 @@ function generateGridPage(category) {
 function loadPage(page) {
   const content = document.getElementById("content");
   if (page === "gallery") {
-    content.innerHTML = "<p>Select a category from the sidebar.</p>";
+    content.innerHTML = "<p></p>";
     return;
   }
 
