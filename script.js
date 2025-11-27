@@ -17,7 +17,7 @@ const dataMap = {
     { 
       src: "images/homunc thumbnail.png",
       title: "Homunculus",
-      desc: "2023.<br>Intrigued with its new gift of life, Homunculus is presented with the simple pleasure of consuming a tiny red berry. Homunculus finds pure bliss wrapped in its leathery skin and begins the pathetic search of satisfaction. But as all else, the berries turn sour and start to eat at Homunculus from the inside.",
+      desc: "2023.<br>Intrigued with the newfound gift of life, Homunculus stumbles upon a tiny red berry. the bite is infectious and causes Homunculus to search for a vice, as perscribed by the viewer, until the berries sour and start to corrode Homunculus from the inside.",
       video: "videos/Homunculus.mp4"
     },
     { 
