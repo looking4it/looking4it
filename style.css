@@ -1,124 +1,491 @@
-/* General */
-body {
+
+/* =========================================
+   GENERAL PAGE
+========================================= */
+
+* {
   margin: 0;
-  font-family: 'Urbanist', sans-serif;
-  background-color: black;
-  color: white;
+  padding: 0;
+  box-sizing: border-box;
 }
- 
-/* Sidebar */
-.sidebar {
-  width: 15%;
-  height: 100vh;
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================================
+   BLACK BACKGROUND
+========================================= */
+
+#background {
   position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 0;
+}
+
+/* =========================================
+   SLIDING GALLERY DRAWER
+========================================= */
+
+:root {
+  --tab-width: 58px;
+  --animation-speed: 0.85s;
+}
+
+#galleryDrawer {
+  position: fixed;
+
+  top: 0;
+  right: 0;
+
+  width: var(--tab-width);
+  height: 100vh;
+  height: 100dvh;
+
+  background: #fff;
+
+  z-index: 10;
+
+  overflow: hidden;
+
+  display: flex;
+
+  transition:
+    width var(--animation-speed) cubic-bezier(0.77, 0, 0.175, 1),
+    right var(--animation-speed) cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* =========================================
+   OPEN GALLERY
+========================================= */
+
+#galleryDrawer.is-open {
+
+  width: calc(100% - var(--tab-width));
+
+  right: var(--tab-width);
+
+}
+
+/* =========================================
+   WHITE GALLERY TAB
+========================================= */
+
+#galleryToggle {
+
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: var(--tab-width);
+  height: 100%;
+
+  background: #fff;
+
+  border: none;
+  border-left: 1px solid #dedede;
+
+  color: #000;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
+
+  flex-shrink: 0;
+
+  transition: background 0.2s ease;
+
+}
+
+#galleryToggle:hover {
+  background: #eeeeee;
+}
+
+#galleryToggle span {
+
+  writing-mode: vertical-rl;
+
+  transform: rotate(180deg);
+
+  font-size: 13px;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+
+  font-weight: 400;
+
+}
+
+/* =========================================
+   GALLERY CONTENT AREA
+========================================= */
+
+#galleryContent {
+
+  position: absolute;
+
   top: 0;
   left: 0;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: black;
+
+  width: calc(100% - var(--tab-width));
+  height: 100%;
+
+  padding: 45px 55px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #fff;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity 0.3s ease 0.35s;
+
 }
 
-.sidebar h1.logo-title {
-  font-family: 'Michroma', sans-serif;
-  margin: 0;
+#galleryDrawer.is-open #galleryContent {
+
+  opacity: 1;
+
+  pointer-events: auto;
+
 }
 
-.sidebar .subtitle {
-  font-weight: 100;
-  margin-top: 10px;
-  letter-spacing: 6px;
-}
+/* =========================================
+   CATEGORY NAVIGATION
+========================================= */
 
 .nav-links {
-  margin-top: 40px;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 35px;
+
+  padding-bottom: 35px;
+
 }
 
 .nav-links a {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
+
+  color: #000;
+
   text-decoration: none;
-  color: white;
-  font-weight: 100;
-  transition: opacity 0.3s;
+
+  font-size: 13px;
+
+  letter-spacing: 1px;
+
+  font-weight: 400;
+
+  text-transform: uppercase;
+
+  position: relative;
+
+  padding-bottom: 5px;
+
 }
 
-.nav-links a:hover {
-  opacity: 0.7;
+.nav-links a::after {
+
+  content: "";
+
+  position: absolute;
+
+  bottom: 0;
+  left: 0;
+
+  width: 0;
+  height: 1px;
+
+  background: #000;
+
+  transition: width 0.25s ease;
+
 }
 
-/* Content */
-.content {
-  margin-left: 15%;
-  padding: 20px;
-  min-height: 100vh;
+.nav-links a:hover::after,
+.nav-links a.active::after {
+
+  width: 100%;
+
 }
 
-.content-inner {
-  min-height: 80vh;
-}
+/* =========================================
+   IMAGE GRID
+========================================= */
 
-/* Image Grid: 6 images across */
 .image-grid {
+
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 20px;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 30px;
+
+  width: 100%;
+
 }
 
 .image-grid img {
+
   width: 100%;
+
+  aspect-ratio: 4 / 5;
+
+  object-fit: contain;
+
   cursor: pointer;
-}
 
-/* Detail View Container */
-.detail-view {
-  display: flex;                /* side-by-side layout */
-  height: 100vh;                /* full viewport height */
-  overflow: hidden;             /* prevent scrolling */
-}
-
-/* Image Container */
-.detail-image {
-  width: 50vw;                  /* half the viewport width */
-  height: 100vh;                /* full viewport height */
-  display: flex;
-  justify-content: center;      /* center image horizontally */
-  align-items: center;          /* center image vertically */
-  overflow: hidden;             /* hide any overflow */
-}
-
-/* Image inside container */
-.detail-image img {
-  max-width: 100%;              /* scale to fit width */
-  max-height: 100%;             /* scale to fit height */
-  object-fit: contain;          /* preserve aspect ratio */
   display: block;
+
+  transition: opacity 0.3s ease;
+
 }
 
-/* Text next to image */
+.image-grid img:hover {
+
+  opacity: 0.75;
+
+}
+
+/* =========================================
+   DETAIL VIEW
+========================================= */
+
+.detail-view {
+
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.8fr);
+
+  gap: 45px;
+
+  align-items: start;
+
+  width: 100%;
+
+}
+
+.detail-image,
+.detail-video {
+
+  width: 100%;
+
+}
+
+.detail-image img {
+
+  display: block;
+
+  width: 100%;
+
+  max-height: 75vh;
+
+  object-fit: contain;
+
+  cursor: pointer;
+
+}
+
+.detail-video video {
+
+  display: block;
+
+  width: 100%;
+
+  max-height: 75vh;
+
+  background: #000;
+
+}
+
 .detail-text {
-  width: 50vw;                  /* take the other half of the screen */
-  height: 100vh;                /* full height */
-  display: flex;
-  flex-direction: column;       /* stack title and description */
-  justify-content: center;      /* center text vertically */
-  align-items: flex-start;      /* align text to left */
-  padding-left: 20px;           /* space from image */
-  box-sizing: border-box;
-  text-align: left;
+
+  color: #000;
+
+  line-height: 1.6;
+
+  font-size: 13px;
+
 }
 
 .detail-text h2 {
-  letter-spacing: 5px;
+
+  font-size: 20px;
+
+  font-weight: 400;
+
+  margin-bottom: 15px;
+
 }
 
 .detail-text p {
-  letter-spacing: 3px;
+
+  font-size: 13px;
+
 }
 
-/* Films */
-.detail-video video {
-  max-width: 100%;
-  max-height: 100vh;
-  display: block;
+/* =========================================
+   EMPTY GALLERY
+========================================= */
+
+.empty-gallery {
+
+  text-align: center;
+
+  margin-top: 100px;
+
+  font-size: 12px;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  color: #777;
+
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+#galleryContent::-webkit-scrollbar {
+
+  width: 5px;
+
+}
+
+#galleryContent::-webkit-scrollbar-thumb {
+
+  background: #ccc;
+
+}
+
+#galleryContent::-webkit-scrollbar-track {
+
+  background: #fff;
+
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  #galleryContent {
+
+    padding: 35px 25px;
+
+  }
+
+  .image-grid {
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+
+  }
+
+  .nav-links {
+
+    gap: 20px;
+
+  }
+
+  .detail-view {
+
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+
+  }
+
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+
+  :root {
+
+    --tab-width: 45px;
+
+  }
+
+  #galleryContent {
+
+    padding: 25px 15px;
+
+  }
+
+  .nav-links {
+
+    gap: 14px;
+
+    padding-bottom: 25px;
+
+  }
+
+  .nav-links a {
+
+    font-size: 10px;
+
+  }
+
+  .image-grid {
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+  }
+
+  .detail-text h2 {
+
+    font-size: 18px;
+
+  }
+
+}
+
+/* =========================================
+   REDUCED MOTION ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  #galleryDrawer,
+  #galleryContent,
+  #galleryToggle,
+  .image-grid img {
+
+    transition: none;
+
+  }
+
 }
