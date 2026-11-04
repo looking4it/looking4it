@@ -1,4 +1,12 @@
-// ==================== DATA ====================
+// =============================================================================================================================================================
+// ============================================================== Gallery =====================================================================================
+// =============================================================================================================================================================
+
+
+// =============================================================================================================================================================
+// ========================================================== Gallery List =====================================================================================
+// =============================================================================================================================================================
+// ==================== ART INFORMATION ====================
 const dataMap = {
   paintings: [
     { 
@@ -58,7 +66,25 @@ const dataMap = {
   ]
 };
 
-// ==================== GENERATE GRID ====================
+// =================================== SLIDING GALLERY PANEL ========================================
+const galleryDrawer = document.getElementById("galleryDrawer");
+const galleryToggle = document.getElementById("galleryToggle");
+let galleryIsOpen = false;
+galleryToggle.addEventListener("click", () => {
+  galleryIsOpen = !galleryIsOpen;
+  galleryDrawer.classList.toggle("is-open", galleryIsOpen);
+  galleryToggle.setAttribute(
+    "aria-expanded",
+    String(galleryIsOpen)
+  );
+  galleryToggle.setAttribute(
+    "aria-label",
+    galleryIsOpen ? "Close gallery" : "Open gallery"
+  );
+});
+
+
+// ==================== GENERATE GRID ================================================================
 function generateGridPage(category) {
   const items = dataMap[category];
   return `
@@ -70,32 +96,43 @@ function generateGridPage(category) {
   `;
 }
 
-// ==================== LOAD PAGE ====================
+// ==================== LOAD PAGE =======================================================
 function loadPage(page) {
   const content = document.getElementById("content");
+   // Stop any video that was playing before changing pages.
+  content.querySelectorAll("video").forEach(video => {
+    video.pause();
+  });
+  // Empty gallery landing page.
   if (page === "gallery") {
     content.innerHTML = "<p></p>";
     return;
   }
-
   content.innerHTML = generateGridPage(page);
 
-  // Attach click events to thumbnails
-  document.querySelectorAll(".image-grid img").forEach(img => {
-    img.addEventListener("click", () => {
-      const index = img.getAttribute("data-index");
-      const category = img.getAttribute("data-category");
-      showDetailView(category, index);
-    });
+   // Update active navigation link.
+
+  document.querySelectorAll(".nav-links a").forEach(link => {
+
+    link.classList.toggle(
+      "active",
+      link.dataset.page === page
+    );
+
   });
+
 }
 
-// ==================== DETAIL VIEW ====================
+// ==================== DETAIL VIEW =====================================================================
 function showDetailView(category, index) {
   const item = dataMap[category][index];
   const content = document.getElementById("content");
+   if (!item) {
+    return;
+  }
 
-  // Check if item is a video
+
+  // =================== Check if item is a video =======================================================
   const isVideo = item.video !== undefined;
 
   if (isVideo) {
@@ -126,22 +163,62 @@ function showDetailView(category, index) {
       </div>
     `;
 
-    // Clicking the big image goes back to the grid
-    document.getElementById("big-image").addEventListener("click", () => {
-      loadPage(category);
-    });
-  }
-}
+    //============= Clicking the big image goes back to the grid ========================================
+ document.querySelector(".nav-links").addEventListener("click", e => {
 
-// ==================== NAVIGATION ====================
-document.querySelectorAll(".nav-links a").forEach(link => {
-  link.addEventListener("click", e => {
-    e.preventDefault();
-    const page = link.getAttribute("data-page");
-    loadPage(page);
-  });
+  const link = e.target.closest("a[data-page]");
+
+  if (!link) {
+    return;
+  }
+
+  e.preventDefault();
+
+  const page = link.dataset.page;
+
+  loadPage(page);
+
 });
 
-// ==================== INITIAL LOAD ====================
+
+// ============================================================================
+// IMAGE GRID AND DETAIL VIEW INTERACTIONS
+// ============================================================================
+
+document.getElementById("content").addEventListener("click", e => {
+
+  // Clicking a thumbnail opens its detail view.
+
+  const thumbnail = e.target.closest(
+    ".image-grid img[data-index]"
+  );
+
+  if (thumbnail) {
+
+    const category = thumbnail.dataset.category;
+
+    const index = Number(thumbnail.dataset.index);
+
+    showDetailView(category, index);
+
+    return;
+
+  }
+
+  // Clicking a large artwork image returns to its category grid.
+
+  const bigImage = e.target.closest("#big-image");
+
+  if (bigImage) {
+
+    loadPage(bigImage.dataset.category);
+
+  }
+
+});
+
+
+
+// ==================== INITIAL LOAD ==================================================================
 loadPage("gallery");
 
