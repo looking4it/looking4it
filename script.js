@@ -108,10 +108,18 @@ const SIZE_CATEGORIES = ["Paintings"];
 // =================================== SLIDING GALLERY PANEL ========================================
 const galleryDrawer = document.getElementById("galleryDrawer");
 const galleryToggle = document.getElementById("galleryToggle");
+const galleryClose = document.getElementById("galleryClose");
 let galleryIsOpen = false;
+// The circled X in the top right corner closes the open gallery.
+galleryClose.addEventListener("click", () => {
+  if (galleryIsOpen) {
+    galleryToggle.click();
+  }
+});
 galleryToggle.addEventListener("click", () => {
   galleryIsOpen = !galleryIsOpen;
   galleryDrawer.classList.toggle("is-open", galleryIsOpen);
+  galleryClose.tabIndex = galleryIsOpen ? 0 : -1;
   galleryToggle.setAttribute(
     "aria-expanded",
     String(galleryIsOpen)
@@ -308,7 +316,15 @@ function showOrderPopup(title, message, order) {
       setTimeout(() => { popup.hidden = true; }, 250);
     };
     popup.addEventListener("click", async e => {
-      if (e.target === popup || e.target.closest(".order-popup-close")) {
+      if (e.target.closest(".order-popup-close")) {
+        // CLOSE also closes the gallery panel, back to the 3D gallery.
+        close();
+        if (galleryIsOpen) {
+          galleryToggle.click();
+        }
+        return;
+      }
+      if (e.target === popup) {
         close();
         return;
       }

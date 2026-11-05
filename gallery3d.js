@@ -47,6 +47,18 @@ const CONFIG = {
   // How close (metres) you must be before a painting or the door can be clicked — walk up to it first.
   clickDistance: { painting: 3, door: 3 },
 
+  // Clicking a painting that's further away than that quickly carries you up to stand right in front of it
+  // (the cursor shows the magnifying glass with no word). If a wall is in the way, it fades through instead of gliding through the wall.
+  paintingTravel: {
+    maxDistance: 40,       // metres: paintings further than this can't be clicked at all
+    speed: 7,              // metres per second for the glide...
+    minTime: 0.6,          // ...but never quicker than this
+    maxTime: 1.6,          // ...or slower than this (seconds)
+    standDistance: [1.4, 2.4], // how far in front of the painting you end up (bigger paintings: further back)
+  },
+  // Clicks pass through plants (by material name), so a painting partly hidden behind leaves can still be clicked.
+  clickThrough: /HOJA|Leaf|Leaves|Plant|Branch|Grass|Ground_Cover|Flower|dandelion/i,
+
   // The main entrance door. Clicking it glides you up to it, fades to white, and brings you in just inside the
   // gallery (all positions in Blender coordinates).
   door: {
@@ -210,7 +222,7 @@ async function start() {
 
   window.addEventListener('keydown', (e) => {
     const k = KEYMAP[e.code];
-    if (!k || drawerOpen() || paintingOpen || entering || typing(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (!k || drawerOpen() || paintingOpen || busy() || typing(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
     e.preventDefault();
     keys.add(k);
     hidePrompt();
@@ -232,22 +244,25 @@ async function start() {
   // ---------------- Clickable things: paintings (LOOK) and the main door (OPEN) ----------------
   const pointer = new THREE.Vector2();
   const pickRay = new THREE.Raycaster();
-  pickRay.far = Math.max(CONFIG.clickDistance.painting, CONFIG.clickDistance.door) + 0.5;
+  pickRay.far = CONFIG.paintingTravel.maxDistance;
   const locked = () => document.pointerLockElement === canvas;
   // What is under the pointer (or under the centre of the screen while the mouse is captured)?
-  // Returns { kind: 'painting', src } or { kind: 'door' } or null.
+  // Returns { kind: 'painting', src } (close enough to look at), { kind: 'goto', hit } (a painting further away),
+  // { kind: 'door' }, or null.
   const targetAt = (clientX, clientY) => {
     if (locked() || clientX === undefined) pointer.set(0, 0);
     else pointer.set((clientX / window.innerWidth) * 2 - 1, -(clientY / window.innerHeight) * 2 + 1);
     pickRay.setFromCamera(pointer, camera);
-    const hits = pickRay.intersectObjects(colliders, false);
+    const hits = pickRay.intersectObjects(colliders, false)
+      .filter((h) => !CONFIG.clickThrough.test(h.object.material.name));
     if (!hits.length) return null;
     // Only things at the front count, but a frame can sit a hair in front of its canvas, so allow a few cm.
     const front = hits.filter((h) => h.distance <= hits[0].distance + 0.15);
     const painting = front.find((h) => CONFIG.paintings[h.object.material.name]);
     if (painting) {
       return painting.distance <= CONFIG.clickDistance.painting
-        ? { kind: 'painting', src: CONFIG.paintings[painting.object.material.name] } : null;
+        ? { kind: 'painting', src: CONFIG.paintings[painting.object.material.name] }
+        : { kind: 'goto', hit: painting };
     }
     const door = front.find((h) => h.object.material.name === CONFIG.door.material);
     if (door) return door.distance <= CONFIG.clickDistance.door ? { kind: 'door' } : null;
@@ -315,10 +330,86 @@ async function start() {
     }
   };
 
+  // Going to a painting that was clicked from further away: end up standing right in front of it, facing it.
+  let travelling = null;
+  const busy = () => Boolean(entering || travelling);
+  const goToPainting = (hit) => {
+    hidePrompt();
+    hideHint();
+    keys.clear();
+    const T = CONFIG.paintingTravel;
+    const box = new THREE.Box3().setFromObject(hit.object);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+
+    // Which way the painting faces (flat on the floor plane), pointing towards the visitor's side of the wall.
+    const toViewer = new THREE.Vector3().subVectors(camera.position, center).setY(0);
+    const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld).setY(0);
+    if (normal.lengthSq() < 1e-6) normal.copy(toViewer);
+    normal.normalize();
+    if (normal.dot(toViewer) < 0) normal.negate();
+
+    // Stand far enough back to see the whole painting, but not so far back that we end up inside something.
+    const span = Math.max(size.y, Math.hypot(size.x, size.z));
+    let dist = THREE.MathUtils.clamp(span * 1.1 + 0.5, T.standDistance[0], T.standDistance[1]);
+    ray.set(center.clone().addScaledVector(normal, 0.05), normal);
+    ray.far = dist + CONFIG.bodyRadius;
+    const behind = ray.intersectObjects(colliders, false)[0];
+    if (behind) dist = Math.max(0.8, behind.distance - CONFIG.bodyRadius);
+
+    const stand = center.clone().addScaledVector(normal, dist);
+    const floor = floorBelow(stand.x, feetY, stand.z) ?? groundY;
+    stand.y = floor + eyeHeight;
+    const toYaw = Math.atan2(-(center.x - stand.x), -(center.z - stand.z));
+    const toPitch = Math.atan2(center.y - stand.y, dist);
+
+    // Glide straight there if the way is clear; otherwise fade through (never through a wall).
+    const path = new THREE.Vector3().subVectors(stand, camera.position).setY(0);
+    const length = path.length();
+    const clear = length < 0.01 || !blocked(camera.position, path.clone().normalize(), length, feetY);
+    travelling = {
+      t: 0,
+      duration: clear ? THREE.MathUtils.clamp(length / T.speed, T.minTime, T.maxTime) : 0.8,
+      fadeThrough: !clear,
+      from: camera.position.clone(), fromYaw: yaw, fromPitch: pitch,
+      to: stand, toYaw: yaw + shortestAngle(yaw, toYaw), toPitch, floor,
+    };
+  };
+  const stepTravel = (dt) => {
+    const tr = travelling;
+    tr.t += dt;
+    const k = Math.min(1, tr.t / tr.duration);
+    if (tr.fadeThrough) {
+      // Fade to white, jump in front of the painting at the halfway point, fade back in.
+      if (k < 0.5) {
+        fade.set(ease(k * 2));
+      } else {
+        camera.position.copy(tr.to);
+        yaw = tr.toYaw;
+        pitch = tr.toPitch;
+        fade.set(1 - ease((k - 0.5) * 2));
+      }
+    } else {
+      const e = ease(k);
+      camera.position.lerpVectors(tr.from, tr.to, e);
+      yaw = THREE.MathUtils.lerp(tr.fromYaw, tr.toYaw, e);
+      pitch = THREE.MathUtils.lerp(tr.fromPitch, tr.toPitch, e);
+    }
+    if (k >= 1) {
+      camera.position.copy(tr.to);
+      yaw = tr.toYaw;
+      pitch = tr.toPitch;
+      feetY = tr.floor;
+      if (tr.fadeThrough) fade.set(0);
+      travelling = null;
+    }
+  };
+
   canvas.addEventListener('click', (e) => {
-    if (drawerOpen() || paintingOpen || entering) return;
+    if (drawerOpen() || paintingOpen || busy()) return;
     const target = targetAt(e.clientX, e.clientY);
     if (target?.kind === 'painting') openPainting(target.src);
+    else if (target?.kind === 'goto') goToPainting(target.hit);
     else if (target?.kind === 'door') enterThroughDoor();
     else if (!locked()) { hidePrompt(); canvas.requestPointerLock?.(); }
   });
@@ -334,16 +425,17 @@ async function start() {
   canvas.addEventListener('pointerleave', () => { mouse = null; });
   let lastHoverCheck = 0;
   const updateCursor = (now) => {
-    const usable = !drawerOpen() && !paintingOpen && !entering && (mouse || locked());
+    const usable = !drawerOpen() && !paintingOpen && !busy() && (mouse || locked());
     if (!usable) { cursor.hide(); return; }
     if (locked()) cursor.moveTo(window.innerWidth / 2, window.innerHeight / 2);
     if (now - lastHoverCheck < 80) return; // a dozen checks a second is plenty
     lastHoverCheck = now;
     const target = locked() ? targetAt() : targetAt(mouse.x, mouse.y);
-    cursor.show(target ? (target.kind === 'door' ? 'OPEN' : 'LOOK') : null);
+    const labels = { door: 'OPEN', painting: 'LOOK', goto: '' }; // far-away painting: magnifying glass, no word
+    cursor.show(target ? labels[target.kind] : null);
   };
   document.addEventListener('mousemove', (e) => {
-    if (locked() && !entering) look(e.movementX, e.movementY);
+    if (locked() && !busy()) look(e.movementX, e.movementY);
   });
   let touch = null;
   canvas.addEventListener('pointerdown', (e) => {
@@ -419,8 +511,9 @@ async function start() {
     // skip drawing to save battery (the last frame stays on screen).
     if ((drawerOpen() && drawerSettled) || paintingOpen) return;
 
-    if (entering) {
-      stepEntering(dt);
+    if (entering || travelling) {
+      if (entering) stepEntering(dt);
+      else stepTravel(dt);
       cursor.hide();
       camera.rotation.set(pitch, yaw, 0);
       renderer.render(scene, camera);
@@ -458,8 +551,23 @@ async function start() {
 
   setStatus('');
   showHint();
+  const help = createHelp(() => { hidePrompt(); hideHint(); }); // the instructions replace the on-screen hints
+  if (drawer) {
+    new MutationObserver(() => { if (drawerOpen()) help.close(); })
+      .observe(drawer, { attributes: true, attributeFilter: ['class'] });
+  }
   if (!drawerOpen()) showPrompt(); // "CLICK TO OPEN" over the door until the visitor does anything
-  window.gallery3d = { THREE, scene, camera, renderer, sun }; // handy for tweaking from the browser console
+  // Handy for tweaking from the browser console, e.g. gallery3d.setView(x, z, yawDeg) to jump somewhere.
+  window.gallery3d = {
+    THREE, scene, camera, renderer, sun, targetAt,
+    setView(x, z, yawDeg, pitchDeg = 0) {
+      const floor = floorBelow(x, groundY, z) ?? groundY;
+      feetY = floor;
+      camera.position.set(x, floor + eyeHeight, z);
+      yaw = THREE.MathUtils.degToRad(yawDeg);
+      pitch = THREE.MathUtils.degToRad(pitchDeg);
+    },
+  };
 }
 
 // ---------------- Helpers ----------------
@@ -512,10 +620,11 @@ function createCursor() {
   const label = el.querySelector('.cursor-label');
   return {
     moveTo(x, y) { el.style.transform = `translate(${x}px, ${y}px)`; },
+    // word: null = arrow; '' = magnifying glass with no word; otherwise magnifying glass with that word above it.
     show(word) {
       el.hidden = false;
-      el.classList.toggle('is-look', !!word);
-      if (word && label.textContent !== word) label.textContent = word;
+      el.classList.toggle('is-look', word != null);
+      if (word != null && label.textContent !== word) label.textContent = word;
     },
     hide() { el.hidden = true; },
   };
@@ -600,10 +709,65 @@ let hintEl;
 function showHint() {
   hintEl = document.createElement('div');
   hintEl.id = 'galleryHint';
-  hintEl.textContent = 'W A S D to walk · Arrow keys or click + mouse to look around · Walk up to the door or a painting and click it · Shift to walk faster · Esc to release the mouse';
+  hintEl.textContent = 'W A S D to walk · Arrow keys or click + mouse to look around · Click a painting to go to it, click again to look · Shift to walk faster · Esc to release the mouse';
   document.body.appendChild(hintEl);
   setTimeout(hideHint, 12000);
 }
 function hideHint() {
   if (hintEl && !hintEl.classList.contains('is-hidden')) hintEl.classList.add('is-hidden');
+}
+
+// Circled "?" in the top right corner of the 3D view: click it for the moving instructions.
+function createHelp(onOpen = () => {}) {
+  const key = (k, label = k) => `<kbd aria-label="${label}">${k}</kbd>`;
+  const button = document.createElement('button');
+  button.id = 'galleryHelpButton';
+  button.type = 'button';
+  button.setAttribute('aria-label', 'How to move around');
+  button.setAttribute('aria-expanded', 'false');
+  button.setAttribute('aria-controls', 'galleryHelp');
+  button.innerHTML = `
+    <svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">
+      <circle cx="16" cy="16" r="15" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <text x="16" y="21.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="currentColor">?</text>
+    </svg>`;
+
+  const panel = document.createElement('div');
+  panel.id = 'galleryHelp';
+  panel.hidden = true;
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-label', 'How to move around');
+  panel.innerHTML = `
+    <h2>How to move around</h2>
+    <dl>
+      <dt>${key('W')}${key('A')}${key('S')}${key('D')}</dt>
+      <dd>Walk forward, left, back and right</dd>
+      <dt>${key('↑', 'up arrow')}${key('↓', 'down arrow')}${key('←', 'left arrow')}${key('→', 'right arrow')}</dt>
+      <dd>Look up, down, left and right</dd>
+      <dt>${key('Shift')}</dt>
+      <dd>Hold while walking to go faster</dd>
+      <dt>Click + mouse</dt>
+      <dd>Look around with the mouse (${key('Esc')} lets go of it)</dd>
+      <dt>Click a painting</dt>
+      <dd>From afar it takes you right up to it; click it again to look at it</dd>
+      <dt>Click the door</dt>
+      <dd>Walk up to it and click to go inside</dd>
+    </dl>`;
+
+  document.body.append(button, panel);
+
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+    button.classList.toggle('is-open', open);
+    if (open) onOpen();
+  };
+  button.addEventListener('click', () => setOpen(panel.hidden));
+  // Clicking anywhere else, or Esc, closes it.
+  document.addEventListener('pointerdown', (e) => {
+    if (!panel.hidden && !panel.contains(e.target) && !button.contains(e.target)) setOpen(false);
+  });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  return { close: () => setOpen(false) };
 }

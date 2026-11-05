@@ -72,6 +72,102 @@ body {
 }
 
 /* =========================================
+   "?" HELP BUTTON + MOVING INSTRUCTIONS (top right of the 3D view)
+========================================= */
+
+#galleryHelpButton {
+  position: fixed;
+  top: 16px;
+  right: calc(var(--tab-width) + 16px);
+  z-index: 5; /* under the gallery drawer, which covers it when open */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+  transition: transform 0.2s ease;
+}
+
+#galleryHelpButton:hover,
+#galleryHelpButton:focus-visible,
+#galleryHelpButton.is-open {
+  transform: scale(1.1);
+  outline: none;
+}
+
+#galleryHelp {
+  position: fixed;
+  top: 66px;
+  right: calc(var(--tab-width) + 16px);
+  z-index: 5;
+  width: min(360px, calc(100vw - var(--tab-width) - 32px));
+  padding: 20px 22px 8px;
+
+  background: rgba(0, 0, 0, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+
+  animation: promptIn 0.25s ease both;
+}
+
+#galleryHelp[hidden] {
+  display: none;
+}
+
+#galleryHelp h2 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+#galleryHelp dt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+#galleryHelp dd {
+  margin: 4px 0 14px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+#galleryHelp kbd {
+  display: inline-block;
+  min-width: 24px;
+  padding: 2px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+
+#galleryHelp dd kbd {
+  min-width: 0;
+  padding: 0 4px;
+  font-size: 10px;
+}
+
+/* =========================================
    "CLICK TO OPEN" (centre of screen on load)
 ========================================= */
 
@@ -326,6 +422,52 @@ body {
   /* Opens almost all the way across, leaving a 5% strip of the 3D gallery visible on the left. */
   width: 95%;
 
+}
+
+/* =========================================
+   CLOSE BUTTON (circled X, top right of the open gallery)
+========================================= */
+
+#galleryClose {
+  position: absolute;
+  /* Centred at the top of the white GALLERY bar, on top of it. */
+  top: 14px;
+  right: calc((var(--tab-width) - 40px) / 2);
+  z-index: 6; /* above the GALLERY bar (#galleryToggle is 5) */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  border: none;
+  background: none;
+  color: #000;
+  cursor: pointer;
+
+  /* Hidden while the gallery is closed; fades in with the content. */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.25s ease;
+}
+
+#galleryDrawer.is-open #galleryClose {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.3s ease 0.35s, transform 0.25s ease;
+}
+
+#galleryClose:hover,
+#galleryClose:focus-visible {
+  transform: rotate(90deg);
+  outline: none;
+}
+@media (max-width: 500px) {
+  #galleryClose {
+    top: 8px;
+  }
 }
 
 /* =========================================
