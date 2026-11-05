@@ -33,6 +33,259 @@ body {
 }
 
 /* =========================================
+   3D GALLERY (inside the background)
+========================================= */
+
+#background canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  cursor: none; /* replaced by the drawn arrow / magnifying glass (#galleryCursor) */
+  /* Slightly richer colours than the plain Blender match. Raise saturate() for more colour, 1 = none. */
+  filter: saturate(1.2) contrast(1.05);
+}
+
+#galleryStatus,
+#galleryHint {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  max-width: calc(100% - var(--tab-width) - 40px);
+  z-index: 5;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+#galleryHint {
+  background: rgba(0, 0, 0, 0.45);
+  padding: 8px 12px;
+  transition: opacity 0.8s ease;
+}
+
+#galleryHint.is-hidden {
+  opacity: 0;
+}
+
+/* =========================================
+   "CLICK TO OPEN" (centre of screen on load)
+========================================= */
+
+#galleryPrompt {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* clicks go through to the door */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: max-content;
+  max-width: calc(100vw - var(--tab-width) - 30px);
+
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.85), 0 2px 4px rgba(0, 0, 0, 0.7);
+
+  animation: promptIn 0.8s ease both;
+  transition: opacity 0.5s ease;
+}
+
+#galleryPrompt .prompt-main {
+  font-size: clamp(16px, 2.2vw, 28px);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  padding-left: 0.35em; /* balances the letter-spacing after the last letter */
+  white-space: nowrap;
+}
+
+#galleryPrompt .prompt-sub {
+  font-size: clamp(10px, 1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1.8;
+}
+
+#galleryPrompt .prompt-arrows {
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  font-size: 1.25em;
+}
+
+#galleryPrompt.is-hidden {
+  opacity: 0;
+}
+
+@keyframes promptIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* =========================================
+   3D MOUSE POINTER (arrow / magnifying glass)
+========================================= */
+
+#galleryCursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 7;
+  pointer-events: none;
+  will-change: transform;
+}
+
+#galleryCursor[hidden] {
+  display: none;
+}
+
+/* Arrow: its tip sits exactly on the mouse position. */
+#galleryCursor .cursor-arrow {
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
+}
+
+/* Magnifying glass: the centre of its lens sits on the mouse position. */
+#galleryCursor .cursor-look {
+  display: none;
+  position: absolute;
+  left: -13px;
+  top: -13px;
+  width: 32px;
+  height: 32px;
+}
+
+#galleryCursor.is-look .cursor-arrow {
+  display: none;
+}
+
+#galleryCursor.is-look .cursor-look {
+  display: block;
+}
+
+#galleryCursor .cursor-look svg {
+  display: block;
+}
+
+#galleryCursor .cursor-label {
+  position: absolute;
+  left: 13px;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  padding-left: 3px; /* balances the letter-spacing after the last letter */
+  white-space: nowrap;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* =========================================
+   DOOR FADE (walking into the gallery)
+========================================= */
+
+#galleryFade {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  background: #fbfaf6;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* =========================================
+   PAINTING VIEW (clicking a painting in 3D)
+========================================= */
+
+#paintingView {
+  position: fixed;
+  inset: 0;
+  z-index: 8; /* above the 3D view, below the gallery drawer */
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 5vw;
+  padding: 6vh calc(var(--tab-width) + 5vw) 6vh 6vw;
+
+  /* The 3D gallery behind goes blurry and slightly lighter. */
+  background: rgba(255, 255, 255, 0.22);
+  -webkit-backdrop-filter: blur(14px) brightness(1.12);
+  backdrop-filter: blur(14px) brightness(1.12);
+
+  cursor: pointer;
+  outline: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#paintingView[hidden] {
+  display: none;
+}
+
+#paintingView.is-open {
+  opacity: 1;
+}
+
+.painting-view-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+}
+
+.painting-view-image img {
+  display: block;
+  max-width: 100%;
+  max-height: 88vh;
+  object-fit: contain;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+.painting-view-label {
+  color: #000;
+  font-size: clamp(22px, 3.2vw, 48px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  #paintingView {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 20px;
+    padding: 30px calc(var(--tab-width) + 15px) 30px 15px;
+  }
+
+  .painting-view-image img {
+    max-height: 72vh;
+  }
+
+  .painting-view-label {
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #paintingView {
+    transition: none;
+  }
+}
+
+/* =========================================
    SLIDING GALLERY DRAWER
 ========================================= */
 
@@ -70,9 +323,8 @@ body {
 
 #galleryDrawer.is-open {
 
-  width: calc(100% - var(--tab-width));
-
-  right: var(--tab-width);
+  /* Opens almost all the way across, leaving a 5% strip of the 3D gallery visible on the left. */
+  width: 95%;
 
 }
 
@@ -348,6 +600,309 @@ body {
 }
 
 /* =========================================
+   "MAKE A CUSTOM ORDER" BUTTON (top of each category page)
+========================================= */
+
+.custom-order-cta {
+  display: flex;
+  justify-content: center;
+  margin: -5px 0 35px;
+}
+
+.custom-order-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 30px 13px 34px;
+  border: 1px solid #000;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* A thin arrow that slides right on hover. */
+.custom-order-button::after {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.3s ease;
+}
+
+.custom-order-button:hover,
+.custom-order-button:focus-visible {
+  background: #000;
+  color: #fff;
+  outline: none;
+}
+
+.custom-order-button:hover::after,
+.custom-order-button:focus-visible::after {
+  transform: translateX(5px);
+}
+
+@media (max-width: 500px) {
+  .custom-order-cta {
+    margin-bottom: 25px;
+  }
+
+  .custom-order-button {
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 12px 20px 12px 24px;
+  }
+}
+
+/* =========================================
+   CUSTOM ORDERS FORM
+========================================= */
+
+.order-form {
+  max-width: 560px;
+  margin: 0 auto;
+  color: #000;
+  font-size: 13px;
+}
+
+.order-intro {
+  line-height: 1.7;
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.order-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-details[hidden],
+.order-field[hidden],
+.order-error[hidden],
+.order-sent[hidden] {
+  display: none;
+}
+
+.order-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.order-field label,
+.order-label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.order-form input,
+.order-form select,
+.order-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #cfcfcf;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.order-form select {
+  cursor: pointer;
+}
+
+.order-form input:focus,
+.order-form select:focus,
+.order-form textarea:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.order-form .is-invalid {
+  border-color: #c0392b;
+}
+
+.order-form textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.order-size {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) 90px;
+  align-items: center;
+  gap: 10px;
+}
+
+.order-times {
+  color: #777;
+}
+
+.order-money {
+  display: flex;
+  align-items: center;
+  border: 1px solid #cfcfcf;
+}
+
+.order-money:focus-within {
+  border-color: #000;
+}
+
+.order-money:has(.is-invalid) {
+  border-color: #c0392b;
+}
+
+.order-prefix {
+  padding-left: 12px;
+  white-space: nowrap;
+  color: #555;
+}
+
+.order-form .order-money input {
+  border: none;
+}
+
+.order-error {
+  color: #c0392b;
+  margin: -8px 0 16px;
+}
+
+.order-send {
+  align-self: flex-start;
+  padding: 12px 42px;
+  border: 1px solid #000;
+  background: #000;
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.order-send:hover,
+.order-send:focus-visible {
+  background: #fff;
+  color: #000;
+}
+
+
+/* "Thank you" popup after pressing SEND */
+#orderPopup {
+  position: fixed;
+  inset: 0;
+  z-index: 20; /* above the gallery drawer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+#orderPopup[hidden] {
+  display: none;
+}
+
+#orderPopup.is-open {
+  opacity: 1;
+}
+
+.order-popup-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 36px 34px;
+  background: #fff;
+  color: #000;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform: translateY(10px);
+  transition: transform 0.25s ease;
+}
+
+#orderPopup.is-open .order-popup-box {
+  transform: none;
+}
+
+.order-popup-box h2 {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.order-popup-box p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 26px;
+}
+
+.order-popup-box .order-send {
+  align-self: center;
+}
+
+.order-popup-retry {
+  margin: -8px 0 26px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.order-popup-box .order-popup-retry p {
+  font-size: 12px;
+  color: #555;
+  margin: 0;
+}
+
+.order-popup-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0 14px;
+}
+
+.order-popup-options a,
+.order-popup-options button {
+  padding: 8px 14px;
+  border: 1px solid #cfcfcf;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.order-popup-options a:hover,
+.order-popup-options button:hover,
+.order-popup-options a:focus-visible,
+.order-popup-options button:focus-visible {
+  border-color: #000;
+  outline: none;
+}
+
+.order-popup-retry p a {
+  color: #000;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere; /* only breaks the address if it can't fit on a line */
+}
+
+/* =========================================
    EMPTY GALLERY
 ========================================= */
 
@@ -474,6 +1029,30 @@ body {
 }
 
 /* =========================================
+   PAINTINGS GRID: 6 ACROSS
+   (after the tablet/mobile rules above so it wins)
+========================================= */
+
+.image-grid.image-grid--paintings {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .image-grid.image-grid--paintings {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 500px) {
+  .image-grid.image-grid--paintings {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+/* =========================================
    REDUCED MOTION ACCESSIBILITY
 ========================================= */
 
@@ -482,6 +1061,8 @@ body {
   #galleryDrawer,
   #galleryContent,
   #galleryToggle,
+  .custom-order-button,
+  .custom-order-button::after,
   .image-grid img {
 
     transition: none;
