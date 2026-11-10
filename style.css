@@ -72,6 +72,45 @@ body {
 }
 
 /* =========================================
+   "ExpoStudios" TITLE (top centre on first load)
+========================================= */
+
+#siteTitle {
+  position: fixed;
+  top: 28vh; /* a little above "CLICK TO ENTER" (which sits at the middle) */
+  left: 50%;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+
+  color: #fff;
+  /* Thin, round geometric letters. Sized to the screen width so it always fits left of the GALLERY bar. */
+  font-family: "Josefin Sans", "Century Gothic", "Futura", sans-serif;
+  font-size: min((100vw - 2 * var(--tab-width) - 60px) / 5.1, 160px); /* "ExpoStudios" is ~5.1× as wide as its font size */
+  font-weight: 200;
+  line-height: 1;
+  white-space: nowrap;
+  /* A soft dark glow keeps the thin white lines readable over the 3D scene. */
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.8);
+
+  animation: promptIn 0.8s ease both;
+  transition: opacity 0.6s ease;
+}
+
+#siteTitle.is-hidden {
+  opacity: 0;
+  animation: none; /* the fade-in would otherwise keep it fully visible */
+}
+
+@media (max-width: 500px) {
+  #siteTitle {
+    top: 30vh;
+    left: calc(50% - var(--tab-width) / 2); /* centred in the 3D area left of the GALLERY bar */
+    font-size: calc((100vw - var(--tab-width) - 30px) / 5.1);
+  }
+}
+
+/* =========================================
    "?" HELP BUTTON + MOVING INSTRUCTIONS (top right of the 3D view)
 ========================================= */
 
@@ -168,7 +207,7 @@ body {
 }
 
 /* =========================================
-   "CLICK TO OPEN" (centre of screen on load)
+   "CLICK TO ENTER" (centre of screen on load)
 ========================================= */
 
 #galleryPrompt {
@@ -218,6 +257,22 @@ body {
 
 #galleryPrompt.is-hidden {
   opacity: 0;
+}
+
+/* "CLICK TO ENTER" fades on its own (keeping its space, so the controls line underneath doesn't jump). */
+#galleryPrompt .prompt-main {
+  transition: opacity 0.5s ease;
+}
+
+#galleryPrompt.is-main-hidden .prompt-main {
+  opacity: 0;
+}
+
+/* On phones, centre it in the 3D area left of the GALLERY bar so the longer line doesn't run under the bar. */
+@media (max-width: 500px) {
+  #galleryPrompt {
+    left: calc(50% - var(--tab-width) / 2);
+  }
 }
 
 @keyframes promptIn {
@@ -747,8 +802,15 @@ body {
 
 .custom-order-cta {
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* stacked: CUSTOM ORDER, then FOR SALE, then LIVE PAINTING EVENTS */
+  align-items: center;
+  gap: 12px;
   margin: -5px 0 35px;
+}
+
+.custom-order-cta .custom-order-button {
+  justify-content: space-between;
+  width: min(100%, 340px);
 }
 
 .custom-order-button {
@@ -798,6 +860,221 @@ body {
     font-size: 10px;
     letter-spacing: 2px;
     padding: 12px 20px 12px 24px;
+  }
+}
+
+/* =========================================
+   PAINTINGS PAGE: FOR SALE, LIVE EVENTS, ABOUT, REVIEWS, LINKS
+========================================= */
+
+.paintings-section {
+  margin-top: 70px;
+  scroll-margin-top: 20px; /* breathing room above a section when a button scrolls to it */
+  color: #000;
+}
+
+.section-divider {
+  margin-bottom: 30px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.section-empty {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #777;
+}
+
+.about-section {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 50px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.about-text {
+  font-size: 14px;
+  line-height: 1.9;
+  text-align: center;
+}
+
+.review-list {
+  list-style: none;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.review {
+  padding: 26px 0;
+  border-top: 1px solid #ececec;
+}
+
+.review:last-child {
+  border-bottom: 1px solid #ececec;
+}
+
+.review-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.review-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.review-name {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.review-stars {
+  color: #e2b93b;
+  font-size: 15px;
+  letter-spacing: 2px;
+  line-height: 1.3;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #777;
+  white-space: nowrap;
+}
+
+.review-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* Review artwork starts hidden; the small arrow slides it down (and back up). */
+.review-photos-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin: 10px 0 0 -6px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: #9a9a9a;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.review-photos-toggle:hover,
+.review-photos-toggle:focus-visible {
+  color: #000;
+  background: #f2f2f2;
+  outline: none;
+}
+
+.review-photos-toggle svg {
+  transition: transform 0.35s ease;
+}
+
+.review.is-photos-open .review-photos-toggle svg {
+  transform: rotate(180deg);
+}
+
+.review-photos-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s ease;
+}
+
+.review.is-photos-open .review-photos-wrap {
+  grid-template-rows: 1fr;
+}
+
+.review-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 4px; /* side room for the photos' soft shadows */
+  margin: 0 -4px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.35s ease, transform 0.45s ease, padding 0.45s ease;
+}
+
+.review.is-photos-open .review-photos {
+  padding: 6px 4px 8px;
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-photos-wrap,
+  .review-photos,
+  .review-photos-toggle svg {
+    transition: none;
+  }
+}
+
+.review-photos img {
+  width: 150px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 30px;
+  margin: 50px 0 20px;
+}
+
+.profile-links a {
+  color: #000;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid #000;
+  padding-bottom: 3px;
+  transition: opacity 0.2s ease;
+}
+
+.profile-links a:hover {
+  opacity: 0.6;
+}
+
+@media (max-width: 500px) {
+  .review-head {
+    grid-template-columns: auto 1fr;
+  }
+
+  .review-date {
+    grid-column: 2;
+    margin-top: -10px;
+  }
+
+  .review-photos img {
+    width: calc(50% - 5px);
   }
 }
 
@@ -860,6 +1137,46 @@ body {
 
 .order-form select {
   cursor: pointer;
+}
+
+/* Field names shown grey inside the boxes (in the same capitals as the labels) instead of above them. */
+.order-form input::placeholder {
+  color: #9a9a9a;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+/* CATEGORY looks the same while nothing is chosen yet. */
+.order-form select:has(option[value=""]:checked) {
+  color: #9a9a9a;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.order-form select option {
+  color: #000;
+  text-transform: none;
+}
+
+/* "CAD $" only appears in front of the budget once a number is typed (the grey placeholder says it until then). */
+.order-money:has(input:placeholder-shown) .order-prefix {
+  display: none;
+}
+
+/* Hidden on screen but still read out by screen readers. */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .order-form input:focus,
@@ -1045,6 +1362,76 @@ body {
 }
 
 /* =========================================
+   BIG PICTURE VIEW: fits the panel, picture left, text right, no scrolling
+   (these selectors are more specific than the tablet/phone rules further down, so they win on every screen size)
+========================================= */
+
+#galleryContent.is-detail {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#galleryContent.is-detail .nav-links {
+  flex-shrink: 0;
+}
+
+#galleryContent.is-detail #content {
+  flex: 1;
+  min-height: 0;
+}
+
+#galleryContent.is-detail .detail-view {
+  height: 100%;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(16px, 4vw, 45px);
+}
+
+#galleryContent.is-detail .detail-image,
+#galleryContent.is-detail .detail-video {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#galleryContent.is-detail .detail-image img,
+#galleryContent.is-detail .detail-video video {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: contain;
+}
+
+#galleryContent.is-detail .detail-video video {
+  height: auto;
+  max-height: 100%;
+}
+
+/* A very long description gets its own quiet scroll inside the text column rather than scrolling the page. */
+#galleryContent.is-detail .detail-text {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+@media (max-width: 500px) {
+  #galleryContent.is-detail .detail-view {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+
+  #galleryContent.is-detail .detail-text,
+  #galleryContent.is-detail .detail-text p {
+    font-size: 11px;
+  }
+
+  #galleryContent.is-detail .detail-text h2 {
+    font-size: 15px;
+  }
+}
+
+/* =========================================
    EMPTY GALLERY
 ========================================= */
 
@@ -1175,20 +1562,26 @@ body {
    (after the tablet/mobile rules above so it wins)
 ========================================= */
 
-.image-grid.image-grid--paintings {
+.image-grid.image-grid--paintings,
+.image-grid.image-grid--paintingsForSale,
+.image-grid.image-grid--liveEvents {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 20px;
 }
 
 @media (max-width: 900px) {
-  .image-grid.image-grid--paintings {
+  .image-grid.image-grid--paintings,
+  .image-grid.image-grid--paintingsForSale,
+  .image-grid.image-grid--liveEvents {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 14px;
   }
 }
 
 @media (max-width: 500px) {
-  .image-grid.image-grid--paintings {
+  .image-grid.image-grid--paintings,
+  .image-grid.image-grid--paintingsForSale,
+  .image-grid.image-grid--liveEvents {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
   }

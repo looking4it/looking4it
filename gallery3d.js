@@ -225,7 +225,7 @@ async function start() {
     if (!k || drawerOpen() || paintingOpen || busy() || typing(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
     e.preventDefault();
     keys.add(k);
-    hidePrompt();
+    hideControls(); // they've used W A S D / an arrow key, so the instructions can go
     hideHint();
   });
   window.addEventListener('keyup', (e) => { const k = KEYMAP[e.code]; if (k) keys.delete(k); });
@@ -556,7 +556,7 @@ async function start() {
     new MutationObserver(() => { if (drawerOpen()) help.close(); })
       .observe(drawer, { attributes: true, attributeFilter: ['class'] });
   }
-  if (!drawerOpen()) showPrompt(); // "CLICK TO OPEN" over the door until the visitor does anything
+  if (!drawerOpen()) showPrompt(); // "CLICK TO ENTER" over the door until the visitor does anything
   // Handy for tweaking from the browser console, e.g. gallery3d.setView(x, z, yawDeg) to jump somewhere.
   window.gallery3d = {
     THREE, scene, camera, renderer, sun, targetAt,
@@ -685,19 +685,26 @@ function createPaintingView(onClose) {
   };
 }
 
-// Big centred "CLICK TO OPEN" shown when the page loads (the door is in the middle of the starting view).
+// Big centred "CLICK TO ENTER" shown when the page loads (the door is in the middle of the starting view).
 // Clicks pass straight through it to the door. It goes away for good once the visitor clicks, walks or looks around.
 let promptEl;
 function showPrompt() {
   promptEl = document.createElement('div');
   promptEl.id = 'galleryPrompt';
   promptEl.innerHTML = `
-    <span class="prompt-main">Click to open</span>
+    <span class="prompt-main">Click to enter</span>
     <span class="prompt-sub">Use ‘W A S D’ keys to move and <span class="prompt-arrows" aria-label="arrow keys">↑ ↓ ← →</span> to look around</span>
   `;
   document.body.appendChild(promptEl);
 }
+// Clicking, looking around with the mouse, etc. fade "CLICK TO ENTER" (and the "ExpoStudios" title), but the
+// "USE W A S D … TO LOOK AROUND" line stays on screen until the visitor actually presses one of those keys.
 function hidePrompt() {
+  document.getElementById('siteTitle')?.classList.add('is-hidden');
+  promptEl?.classList.add('is-main-hidden');
+}
+function hideControls() {
+  hidePrompt();
   if (!promptEl) return;
   const el = promptEl;
   promptEl = null;

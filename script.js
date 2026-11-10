@@ -70,29 +70,127 @@ const dataMap = {
     { src: "images/photo2.jpg", title: "Photo 2", desc: "Photo 2 description." },
     { src: "images/photo3.jpg", title: "Photo 3", desc: "Photo 3 description." }
   ],
-  music: [
-    { src: "images/music1.jpg", title: "Music 1", desc: "Music 1 description." },
-    { src: "images/music2.jpg", title: "Music 2", desc: "Music 2 description." },
-    { src: "images/music3.jpg", title: "Music 3", desc: "Music 3 description." }
-  ],
-  books: [
-    { src: "images/book1.jpg", title: "Book 1", desc: "Book 1 description." },
-    { src: "images/book2.jpg", title: "Book 2", desc: "Book 2 description." },
-    { src: "images/book3.jpg", title: "Book 3", desc: "Book 3 description." }
-  ],
   jewelry: [
     { src: "images/jewelry1.jpg", title: "Jewelry 1", desc: "Jewelry 1 description." },
     { src: "images/jewelry2.jpg", title: "Jewelry 2", desc: "Jewelry 2 description." },
     { src: "images/jewelry3.jpg", title: "Jewelry 3", desc: "Jewelry 3 description." }
+  ],
+
+  // ---- Further down the Paintings page ----
+  // Paintings for sale, shown under "- FOR SALE -". Add them like the paintings above, e.g.
+  //   { src: "images/my-painting.jpg", title: "Title", desc: "2026.<br>Oil on Canvas.<br>24x36''.<br><br><strong>$900.</strong>" },
+  paintingsForSale: [
+  ],
+
+  // ---- Their own tabs ----
+  // Mural photos (MURALS tab). Same format as the paintings above.
+  murals: [
+    {
+      src: "images/murals/nursery-dragon-mural.jpg",
+      title: "Nursery Mural",
+      desc: "Hand-painted mural for a baby's nursery."
+    },
+  ],
+  // Photos from live painting events (LIVE PAINTING EVENTS tab). Same format.
+  liveEvents: [
   ]
 };
+
+// The for-sale section shows as part of the Paintings page (clicking a big picture goes back there).
+const PARENT_PAGE = { paintingsForSale: "paintings" };
+
+// What a tab shows while it has no pictures yet.
+const EMPTY_TEXT = { murals: "Photos coming soon.", liveEvents: "Photos coming soon." };
+
+// ==================== ABOUT, REVIEWS AND LINKS (bottom of the Paintings page) ====================
+const ABOUT_TEXT = "I am a multi-medium painter based in Montreal, Canada. I sell both original paintings and custom orders. Custom paintings are typically completed within two weeks and are able to be shipped globally. If you are interested in working together, send me an inquiry through the CUSTOM ORDER tab and I will get back to you within 48 hours to get started :)";
+
+// Reviews from Book an Artist. Dates are YYYY-MM-DD; they're shown newest first.
+const REVIEWS = [
+  {
+    name: "Kayla Z", date: "2025-12-02", stars: 5,
+    text: "I had a fantastic experience working with Emma! She is so talented, efficient, and great to communicate with. This project was a large one (requiring 16 unique illustrations) and I love absolutely everything she created! She was great at understanding the vision I had in mind, always very pleasant and kind, and she completed the project super efficiently. I'm thrilled with the dreamy whimsical paintings she has created for my children's story, they are even more beautiful than I imagined! Thank you so much Emma for your hard work and talent! It was such a joy working with you!",
+    photos: ["images/reviews/kayla-1.jpg", "images/reviews/kayla-2.jpg", "images/reviews/kayla-3.jpg"]
+  },
+  {
+    name: "Nick V", date: "2025-11-29", stars: 5,
+    text: "I highly recommend Emma! Everything about working with her was a pleasure. She's very accomodating and cares about the product and does a great job translating ideas to canvas. We love the painting."
+  },
+  {
+    name: "Edouard P", date: "2025-02-05", stars: 5,
+    text: "She made a beautiful painting of my girlfriend and me. All the conditions were respected. Would recommand!"
+  },
+  {
+    name: "Frank C", date: "2025-05-10", stars: 5,
+    text: "Emma was absolutely amazing to deal with. She is extremely talented and very kind and easy going. Could not recommend more!"
+  },
+  {
+    name: "Kaitlyn H", date: "2025-06-05", stars: 5,
+    text: "Emma was great! From beginning to end she was so communicative and showing me the process !"
+  },
+  {
+    name: "Christy C", date: "2025-07-18", stars: 5,
+    text: "Emma was as great as her work! Very talented and professional. Great experience."
+  },
+  {
+    name: "Jeffrey V", date: "2025-10-21", stars: 5,
+    text: "My first time ever using the platform, Emma made sure it was a safe, friendly, and efficient process. I'm quite impressed with how this whole process was handled. Couldn't have been easier, and the oil painting she made for me is superb. Thanks again Emma!",
+    photos: ["images/reviews/jeffrey-1.jpg"]
+  },
+  {
+    name: "Bader A", date: "2026-11-06", stars: 5,
+    text: "Great experience! Efficient communication and an excellent art piece!"
+  }
+];
+
+// Live painting reviews, shown at the bottom of the LIVE PAINTING EVENTS tab (newest first).
+const LIVE_EVENT_REVIEWS = [
+  {
+    name: "Karen L", date: "2026-02-28", stars: 5,
+    text: "Emma was incredible! very flexible. punctual. smiling. very professional work. speed painting interpreted exactly as I expected in just minutes . I loved working with her and our collaboration will certainly recur."
+  }
+];
+
+// Photography reviews, shown at the bottom of the PHOTOGRAPHY tab (newest first).
+const PHOTOGRAPHY_REVIEWS = [
+  {
+    name: "Rafael P", date: "2025-09-25", stars: 5,
+    text: "A great professional — excellent communication, reliability, and true professionalism."
+  }
+];
+
+// Mural reviews, shown at the bottom of the MURALS tab (newest first).
+const MURAL_REVIEWS = [
+  {
+    name: "Sarah V", date: "2026-01-13", stars: 5,
+    text: "Emma was an absolute delight to work with on this project! We were tasked with finding a chalk artist to design a 16 foot long chalkboard in our office and the end result blew our expectations out of the water. Emma was extremely communicative and accommodating with our schedules to complete the project. She was very receptive to our design ideas, adding her own creative flare and ultimately creating a beautiful chalk mural that was admired by the entire office. I could not recommend working with Emma enough!"
+  },
+  {
+    name: "Daniela P", date: "2026-09-06", stars: 5,
+    text: "We hired Emma to paint a mural for our baby's nursery, and the experience was fantastic from start to finish. We only had a vague idea and a color scheme in mind, but she took that and turned it into a beautiful, well-thought-out design we absolutely loved. She was punctual, professional, and finished the mural much faster than we expected — all while bringing her own supplies and leaving the space spotless when she was done. What really stood out was her follow-through: months later, we accidentally damaged part of the mural while moving the crib, and Emma came back to fix it without any hassle or complaint. That kind of care and reliability is hard to find. We'd absolutely hire her again, and we can't recommend Emma highly enough to anyone looking for a talented, dependable artist. Thanks so much Emma!",
+    photos: ["images/reviews/daniela-1.jpg"]
+  },
+  {
+    name: "Kristina K", date: "2026-01-28", stars: 5,
+    text: "I absolutely love the art work that Emma did for my baby nursery. She delivered exactly what I wanted. Emma is very professional and was a pleasure to work with. I am extremely happy with how the nursery wall turned out. thank you Emma for making this special room magical."
+  }
+];
+
+// Tabs (other than Paintings) that end with a reviews section.
+const TAB_REVIEWS = { murals: MURAL_REVIEWS, liveEvents: LIVE_EVENT_REVIEWS, photography: PHOTOGRAPHY_REVIEWS };
+
+const PROFILE_LINKS = [
+  { label: "Book an Artist portfolio", href: "https://seller.bookanartist.co/reviews" },
+  { label: "Instagram", href: "https://www.instagram.com/emma_veres/" }
+];
 
 // Category pages that show the "MAKE A CUSTOM ORDER" button (page name → its CATEGORY in the order form).
 const CUSTOM_ORDER_BUTTON_PAGES = {
   paintings: "Paintings",
+  murals: "Murals",
+  liveEvents: "Live Painting Events",
   films: "Films",
   photography: "Photography",
-  books: "Books",
   jewelry: "Jewelry"
 };
 
@@ -102,8 +200,8 @@ const CUSTOM_ORDER_BUTTON_PAGES = {
 const ORDER_EMAIL = "emma.veres@outlook.com";
 
 // Categories in the CATEGORY drop-down. Categories listed in SIZE_CATEGORIES also ask for a size.
-const ORDER_CATEGORIES = ["Paintings", "Photography", "Films", "Books", "Jewelry"];
-const SIZE_CATEGORIES = ["Paintings"];
+const ORDER_CATEGORIES = ["Paintings", "Murals", "Live Painting Events", "Photography", "Films", "Jewelry"];
+const SIZE_CATEGORIES = ["Paintings", "Murals"];
 
 // =================================== SLIDING GALLERY PANEL ========================================
 const galleryDrawer = document.getElementById("galleryDrawer");
@@ -118,6 +216,11 @@ galleryClose.addEventListener("click", () => {
 });
 galleryToggle.addEventListener("click", () => {
   galleryIsOpen = !galleryIsOpen;
+  // Every time the gallery opens, it starts on the Paintings page, scrolled to the top.
+  if (galleryIsOpen) {
+    loadPage("paintings");
+    document.getElementById("galleryContent").scrollTop = 0;
+  }
   galleryDrawer.classList.toggle("is-open", galleryIsOpen);
   galleryClose.tabIndex = galleryIsOpen ? 0 : -1;
   galleryToggle.setAttribute(
@@ -132,23 +235,109 @@ galleryToggle.addEventListener("click", () => {
 
 
 // ==================== GENERATE GRID ================================================================
-function generateGridPage(category) {
+function generateGrid(category, emptyText = "") {
   const items = dataMap[category];
-  const orderCategory = CUSTOM_ORDER_BUTTON_PAGES[category];
-  const orderButton = orderCategory ? `
-    <div class="custom-order-cta">
-      <button type="button" class="custom-order-button" data-order-category="${orderCategory}">
-        Make a custom order
-      </button>
-    </div>
-  ` : "";
+  if (!items.length) {
+    return `<p class="section-empty">${emptyText}</p>`;
+  }
   return `
-    ${orderButton}
     <div class="image-grid image-grid--${category}">
       ${items.map((item, i) => `
         <img src="${item.src}" alt="${item.title}" data-index="${i}" data-category="${category}">
       `).join("")}
     </div>
+  `;
+}
+
+function generateGridPage(category) {
+  const orderCategory = CUSTOM_ORDER_BUTTON_PAGES[category];
+  const isPaintings = category === "paintings";
+  // Paintings also gets a FOR SALE button that scrolls down to that section.
+  const buttons = orderCategory ? `
+    <div class="custom-order-cta">
+      <button type="button" class="custom-order-button" data-order-category="${orderCategory}">
+        Make a custom order
+      </button>
+      ${isPaintings ? `
+        <button type="button" class="custom-order-button" data-scroll-to="forSaleSection">For sale</button>
+      ` : ""}
+    </div>
+  ` : "";
+  return `
+    ${buttons}
+    ${generateGrid(category, EMPTY_TEXT[category])}
+    ${isPaintings ? generatePaintingsExtras() : ""}
+    ${TAB_REVIEWS[category] ? `
+      <section class="paintings-section reviews-section">
+        <h2 class="section-divider">- Reviews -</h2>
+        ${generateReviews(TAB_REVIEWS[category])}
+      </section>
+    ` : ""}
+  `;
+}
+
+// The rest of the Paintings page: for sale, about, reviews and links.
+function generatePaintingsExtras() {
+  return `
+    <section class="paintings-section" id="forSaleSection">
+      <h2 class="section-divider">- For sale -</h2>
+      ${generateGrid("paintingsForSale", "No paintings for sale at the moment. Check back soon!")}
+    </section>
+
+    <section class="paintings-section about-section">
+      <p class="about-text">${ABOUT_TEXT}</p>
+    </section>
+
+    <section class="paintings-section reviews-section">
+      <h2 class="section-divider">- Reviews -</h2>
+      ${generateReviews(REVIEWS)}
+    </section>
+
+    <nav class="profile-links" aria-label="Find me elsewhere">
+      ${PROFILE_LINKS.map(l => `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`).join("")}
+    </nav>
+  `;
+}
+
+// A list of reviews, newest first.
+function generateReviews(list) {
+  const formatDate = iso => {
+    const [y, m, d] = iso.split("-").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" });
+  };
+  const initials = name => name.split(/\s+/).map(w => w[0]).join("").toUpperCase();
+  const reviews = [...list].sort((a, b) => b.date.localeCompare(a.date)); // newest first
+
+  return `
+      <ol class="review-list">
+        ${reviews.map(r => `
+          <li class="review">
+            <div class="review-head">
+              <span class="review-avatar" aria-hidden="true">${initials(r.name)}</span>
+              <div>
+                <p class="review-name">${r.name}</p>
+                <p class="review-stars" aria-label="${r.stars} out of 5 stars">${"★".repeat(r.stars)}${"☆".repeat(5 - r.stars)}</p>
+              </div>
+              <time class="review-date" datetime="${r.date}">${formatDate(r.date)}</time>
+            </div>
+            <p class="review-text">${r.text}</p>
+            ${r.photos ? `
+              <button type="button" class="review-photos-toggle" aria-expanded="false"
+                      aria-label="Show the artwork from this order">
+                <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                  <path d="M3 6 L8 11 L13 6" fill="none" stroke="currentColor" stroke-width="1.4"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <div class="review-photos-wrap">
+                <div class="review-photos">
+                  ${r.photos.map(src => `<img src="${src}" alt="Artwork from ${r.name}'s order">`).join("")}
+                </div>
+              </div>
+            ` : ""}
+          </li>
+        `).join("")}
+      </ol>
   `;
 }
 
@@ -163,9 +352,9 @@ function generateCustomOrderPage() {
       </p>
 
       <div class="order-field">
-        <label for="orderCategory">Category</label>
+        <label class="visually-hidden" for="orderCategory">Category</label>
         <select id="orderCategory" name="category">
-          <option value="" selected>Select a category</option>
+          <option value="" selected>Category</option>
           ${ORDER_CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join("")}
         </select>
       </div>
@@ -188,21 +377,21 @@ function generateCustomOrderPage() {
         </div>
 
         <div class="order-field">
-          <label for="orderBudget">Budget</label>
+          <label class="visually-hidden" for="orderBudget">Budget in Canadian dollars</label>
           <div class="order-money">
             <span class="order-prefix" aria-hidden="true">CAD $</span>
-            <input id="orderBudget" name="budget" type="number" inputmode="decimal" min="0" step="any">
+            <input id="orderBudget" name="budget" type="number" inputmode="decimal" min="0" step="any" placeholder="Budget (CAD $)">
           </div>
         </div>
 
         <div class="order-field">
-          <label for="orderCity">Shipping location</label>
-          <input id="orderCity" name="city" type="text" placeholder="City" autocomplete="address-level2">
+          <label class="visually-hidden" for="orderCity">Shipping location (city)</label>
+          <input id="orderCity" name="city" type="text" placeholder="Shipping location (city)" autocomplete="address-level2">
         </div>
 
         <div class="order-field">
-          <label for="orderEmail">Your email</label>
-          <input id="orderEmail" name="email" type="email" placeholder="name@example.com" autocomplete="email" required>
+          <label class="visually-hidden" for="orderEmail">Email</label>
+          <input id="orderEmail" name="email" type="email" placeholder="Email" autocomplete="email" required>
         </div>
 
         <div class="order-field">
@@ -361,6 +550,8 @@ function loadPage(page) {
   content.querySelectorAll("video").forEach(video => {
     video.pause();
   });
+  // Back to a normal, scrollable page.
+  document.getElementById("galleryContent").classList.remove("is-detail");
   // Empty gallery landing page.
   if (page === "gallery") {
     content.innerHTML = "<p></p>";
@@ -390,6 +581,11 @@ function showDetailView(category, index) {
    if (!item) {
     return;
   }
+
+  // The big picture view fits the panel exactly (picture left, text right) and doesn't scroll.
+  const galleryContent = document.getElementById("galleryContent");
+  galleryContent.scrollTop = 0;
+  galleryContent.classList.add("is-detail");
 
 
   // =================== Check if item is a video =======================================================
@@ -471,7 +667,7 @@ document.getElementById("content").addEventListener("click", e => {
 
   // "MAKE A CUSTOM ORDER" opens the Custom Orders page with this page's category already chosen.
 
-  const orderButton = e.target.closest(".custom-order-button");
+  const orderButton = e.target.closest(".custom-order-button[data-order-category]");
 
   if (orderButton) {
 
@@ -489,17 +685,72 @@ document.getElementById("content").addEventListener("click", e => {
 
   }
 
+  // The little arrow under a review slides its artwork down into view, or back up out of sight.
+
+  const photosToggle = e.target.closest(".review-photos-toggle");
+
+  if (photosToggle) {
+
+    const open = photosToggle.getAttribute("aria-expanded") !== "true";
+
+    photosToggle.setAttribute("aria-expanded", String(open));
+
+    photosToggle.setAttribute("aria-label", open ? "Hide the artwork from this order" : "Show the artwork from this order");
+
+    photosToggle.closest(".review").classList.toggle("is-photos-open", open);
+
+    return;
+
+  }
+
+  // FOR SALE glides down to its section.
+
+  const scrollButton = e.target.closest("[data-scroll-to]");
+
+  if (scrollButton) {
+
+    const section = document.getElementById(scrollButton.dataset.scrollTo);
+    const scroller = document.getElementById("galleryContent");
+
+    if (section) {
+      const top = section.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - 20;
+      glideScroll(scroller, top);
+    }
+
+    return;
+
+  }
+
   const bigImage = e.target.closest("#big-image");
 
   if (bigImage) {
 
-    loadPage(bigImage.dataset.category);
+    const category = bigImage.dataset.category;
+
+    loadPage(PARENT_PAGE[category] || category);
 
   }
 
 });
 
 
+
+// Smoothly scrolls an element to a position (about 0.7 s, easing in and out). Done by hand rather than with the
+// browser's smooth scrolling, which some browsers skip; it always ends exactly at the target.
+function glideScroll(el, target, duration = 700) {
+  const start = el.scrollTop;
+  const distance = Math.min(target, el.scrollHeight - el.clientHeight) - start;
+  const startTime = performance.now();
+  const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const finish = () => { el.scrollTop = start + distance; };
+  const step = now => {
+    const t = Math.min(1, (now - startTime) / duration);
+    el.scrollTop = start + distance * ease(t);
+    if (t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+  setTimeout(finish, duration + 150); // makes sure it lands even if animation frames are paused
+}
 
 // ==================== CUSTOM ORDER FORM INTERACTIONS ================================================
 document.getElementById("content").addEventListener("change", e => {

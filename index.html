@@ -7,6 +7,11 @@
 
   <title>Art Gallery</title>
 
+  <!-- Thin geometric font for the "ExpoStudios" title -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200&display=swap">
+
   <link rel="stylesheet" href="style.css">
 
   <!-- 3D LIBRARIES (three.js) -->
@@ -26,6 +31,9 @@
   <!-- 3D GALLERY BACKGROUND (stays black while the model loads, or if 3D isn't supported) -->
   <main id="background"></main>
 
+  <!-- Title shown at the top centre when the page first loads (fades once the visitor starts exploring) -->
+  <h1 id="siteTitle">ExpoStudios</h1>
+
   <!-- SLIDING GALLERY -->
   <div id="galleryDrawer">
 
@@ -44,10 +52,10 @@
       <nav class="nav-links" aria-label="Gallery categories">
 
         <a href="#" data-page="paintings">Paintings</a>
+        <a href="#" data-page="murals">Murals</a>
+        <a href="#" data-page="liveEvents">Live Painting Events</a>
         <a href="#" data-page="films">Films</a>
         <a href="#" data-page="photography">Photography</a>
-        <a href="#" data-page="music">Music</a>
-        <a href="#" data-page="books">Books</a>
         <a href="#" data-page="jewelry">Jewelry</a>
         <a href="#" data-page="custom-orders">Custom Orders</a>
 
