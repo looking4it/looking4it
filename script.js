@@ -180,7 +180,7 @@ const MURAL_REVIEWS = [
 const TAB_REVIEWS = { murals: MURAL_REVIEWS, liveEvents: LIVE_EVENT_REVIEWS, photography: PHOTOGRAPHY_REVIEWS };
 
 const PROFILE_LINKS = [
-  { label: "Book an Artist portfolio", href: "https://seller.bookanartist.co/reviews" },
+  { label: "Book an Artist profile", href: "https://bookanartist.co/artist/artist-for-hire/14583" },
   { label: "Instagram", href: "https://www.instagram.com/emma_veres/" }
 ];
 
