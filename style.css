@@ -268,6 +268,16 @@ body {
   opacity: 0;
 }
 
+/* The W A S D / arrows line stays hidden until the visitor is inside the gallery. */
+#galleryPrompt .prompt-sub {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+#galleryPrompt.is-controls-shown .prompt-sub {
+  opacity: 1;
+}
+
 /* On phones, centre it in the 3D area left of the GALLERY bar so the longer line doesn't run under the bar. */
 @media (max-width: 500px) {
   #galleryPrompt {

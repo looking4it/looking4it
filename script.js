@@ -197,7 +197,7 @@ const CUSTOM_ORDER_BUTTON_PAGES = {
 // ==================== CUSTOM ORDERS ====================
 // Where custom order requests go. Pressing SEND opens the visitor's email app with a new email to this address,
 // the subject and the whole order already filled in; they press send there. (A mailto: link, so no outside service.)
-const ORDER_EMAIL = "emma.veres@outlook.com";
+const ORDER_EMAIL = "emma@expostudios.ca";
 
 // Categories in the CATEGORY drop-down. Categories listed in SIZE_CATEGORIES also ask for a size.
 const ORDER_CATEGORIES = ["Paintings", "Murals", "Live Painting Events", "Photography", "Films", "Jewelry"];

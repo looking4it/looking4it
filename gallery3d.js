@@ -327,6 +327,8 @@ async function start() {
       camera.position.copy(e.arrive).setY(feetY + eyeHeight);
       fade.set(0);
       entering = null;
+      showControls(); // now inside the gallery: show how to walk and look around
+      showHint();
     }
   };
 
@@ -550,7 +552,6 @@ async function start() {
   });
 
   setStatus('');
-  showHint();
   const help = createHelp(() => { hidePrompt(); hideHint(); }); // the instructions replace the on-screen hints
   if (drawer) {
     new MutationObserver(() => { if (drawerOpen()) help.close(); })
@@ -697,8 +698,12 @@ function showPrompt() {
   `;
   document.body.appendChild(promptEl);
 }
-// Clicking, looking around with the mouse, etc. fade "CLICK TO ENTER" (and the "ExpoStudios" title), but the
-// "USE W A S D … TO LOOK AROUND" line stays on screen until the visitor actually presses one of those keys.
+// Clicking, looking around with the mouse, etc. fade "CLICK TO ENTER" (and the "ExpoStudios" title).
+// The "USE W A S D … TO LOOK AROUND" line only appears once the visitor has gone through the door, and then
+// stays on screen until they actually press one of those keys.
+function showControls() {
+  promptEl?.classList.add('is-controls-shown');
+}
 function hidePrompt() {
   document.getElementById('siteTitle')?.classList.add('is-hidden');
   promptEl?.classList.add('is-main-hidden');
@@ -714,6 +719,7 @@ function hideControls() {
 
 let hintEl;
 function showHint() {
+  if (hintEl) return; // only the first time through the door
   hintEl = document.createElement('div');
   hintEl.id = 'galleryHint';
   hintEl.textContent = 'W A S D to walk · Arrow keys or click + mouse to look around · Click a painting to go to it, click again to look · Shift to walk faster · Esc to release the mouse';
